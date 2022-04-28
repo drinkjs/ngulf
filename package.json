@@ -1,0 +1,92 @@
+{
+  "name": "ngulf",
+  "version": "0.0.1",
+  "description": "北部湾",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drinkjs/ngulf.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drinkjs/ngulf/issues"
+  },
+  "homepage": "https://github.com/drinkjs/ngulf#readme",
+  "dependencies": {
+    "fastify": "^3.28.0",
+    "class-transformer": "0.3.1",
+    "class-validator": "0.13.0",
+    "colors": "^1.4.0",
+    "compressing": "^1.5.1",
+    "dayjs": "^1.9.8",
+    "dotenv": "^8.2.0",
+    "fastify-cookie": "^5.3.0",
+    "fastify-csrf": "^3.0.1",
+    "fastify-multipart": "^4.0.2",
+    "fastify-session": "^5.2.1",
+    "fastify-static": "^4.0.1",
+    "ioredis": "^4.27.3",
+    "is-type-of": "^1.2.1",
+    "mongoose": "5.10.18",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.29",
+    "uuid": "^3.3.2",
+    "winston": "^3.1.0",
+    "ws": "^7.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "pm2": "^4.5.0",
+    "@babel/core": "^7.13.15",
+    "@typegoose/typegoose": "^7.6.0",
+    "@types/busboy": "^0.2.3",
+    "babel-preset-es2015": "^6.24.1",
+    "@babel/preset-env": "^7.13.15",
+    "@types/ioredis": "^4.26.4",
+    "@types/mongoose": "^5.10.3",
+    "@types/node": "^14.14.10",
+    "eslint-plugin-html": "^6.1.1",
+    "@types/uuid": "^8.3.0",
+    "@types/ws": "^7.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.19.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
+    "prettier": "^2.1.2",
+    "ts-node": "^9.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.6.3"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "docs/*",
+      "log/*",
+      "data/*"
+    ],
+    "delay": "1500"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
