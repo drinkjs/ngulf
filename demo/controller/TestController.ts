@@ -1,6 +1,4 @@
-import { BaseController } from "../../src";
-import { Controller, Get } from "../../src/core";
-
+import { BaseController, Controller, Get  } from "ngulf";
 @Controller("/test")
 export default class TestController extends BaseController {
   @Get("/hello")

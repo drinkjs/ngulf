@@ -5,6 +5,8 @@ export default ngulf;
 
 export * from "./config";
 export * from "./controller/BaseController";
+export * from "./core";
+export * from "./common"
 
 export interface RouterContext {
   req: FastifyRequest;
