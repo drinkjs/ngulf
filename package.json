@@ -1,12 +1,15 @@
 {
   "name": "ngulf",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "北部湾",
   "engines": {
     "node": ">=14.0.0"
   },
-  "main": "dist/index.js",
-  "files": ["dist/**/*"],
+  "main": "index.js",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
