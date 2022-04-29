@@ -1,4 +1,4 @@
-import ngulf from "ngulf";
+import ngulf from "../";
 import TextController from "./controller/TestController";
 
 ngulf({

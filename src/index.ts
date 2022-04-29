@@ -1,13 +1,16 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+/// <reference path="../node_modules/mongoose/types/index.d.ts" />
+
+import fastify, { FastifyReply, FastifyRequest } from "fastify";
+import IORedis from "ioredis";
 import ngulf from "./server";
 
 export default ngulf;
 
+export { fastify, IORedis };
 export * from "./config";
 export * from "./controller/BaseController";
 export * from "./core";
-export * from "./common"
-
+export * from "./common";
 export interface RouterContext {
   req: FastifyRequest;
   res: FastifyReply;
