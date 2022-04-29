@@ -1,23 +1,23 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "esnext",
-    "noImplicitAny": true,
-    "outDir": "./dist",
-    "sourceMap": true,
-    "experimentalDecorators": true,
+    "declaration": true,
+    "removeComments": false,
     "emitDecoratorMetadata": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "baseUrl": "./",
-    "lib": ["esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": false,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "sourceMap": true,
+    "outDir": "dist",
+    "incremental": true,
+    "skipLibCheck": true
   },
+  "include": [
+    "src",
+  ],
+  "exclude": [
+    "demo",
+    "test",
+    "node_modules"
+  ]
 }

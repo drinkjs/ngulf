@@ -5,9 +5,11 @@
   "engines": {
     "node": ">=14.0.0"
   },
+  "files": ["dist/**/*"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint --init"
+    "build": "tsc",
+    "publish": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
