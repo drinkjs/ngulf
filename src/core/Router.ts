@@ -11,23 +11,23 @@ import WebsocketEmitter from "./WebsocketEmitter";
 import { NgulfOptions } from "../config";
 import { RouterContext } from "../";
 
-function selfish(target: any) {
-  const cache = new WeakMap();
-  const handler = {
-    get(self: any, key: any) {
-      const value = Reflect.get(self, key);
-      if (typeof value !== "function") {
-        return value;
-      }
-      if (!cache.has(value)) {
-        cache.set(value, value.bind(self));
-      }
-      return cache.get(value);
-    },
-  };
-  const proxy = new Proxy(target, handler);
-  return proxy;
-}
+// function selfish(target: any) {
+//   const cache = new WeakMap();
+//   const handler = {
+//     get(self: any, key: any) {
+//       const value = Reflect.get(self, key);
+//       if (typeof value !== "function") {
+//         return value;
+//       }
+//       if (!cache.has(value)) {
+//         cache.set(value, value.bind(self));
+//       }
+//       return cache.get(value);
+//     },
+//   };
+//   const proxy = new Proxy(target, handler);
+//   return proxy;
+// }
 export default class Router {
   private server: FastifyInstance;
 
@@ -72,19 +72,20 @@ export default class Router {
         if (!routeMetadata) return;
 
         const { type, path } = routeMetadata;
-        const self = selfish(instance);
+        // const self = selfish(instance);
+        const selfFun = instance[routeName].bind(instance);
         const urlPath =
           typeof path === "string"
             ? `${opts.routePrefix || ""}` + controllerMetadata + path
             : path;
         // webaocket事件
         if (this.wss && type === "ws") {
-          this.wss.on(urlPath, self[routeName]);
+          this.wss.on(urlPath, selfFun);
           return;
         }
 
         const handler = this.handlerFactory(
-          self[routeName],
+          selfFun,
           Reflect.getMetadata(PARAM_METADATA, instance, routeName)
         );
         // 绑定路由

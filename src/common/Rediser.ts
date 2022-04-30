@@ -20,8 +20,8 @@ export default class Rediser {
     const redis = new IORedis(opts);
     return new Promise((resolve, reject) => {
       redis.once("connect", () => {
-        console.log(`redis@${opts?.host}:${opts?.port} connected`.green);
         this.redisConnects.push(redis);
+        console.log(`redis@${opts?.host}:${opts?.port} connected`.green);
         resolve(redis);
       });
       redis.on("error", (err) => {
@@ -36,8 +36,9 @@ export default class Rediser {
       for (const service of services) {
         const { key, target, options } = service;
         const opts: IORedis.RedisOptions = options || redisOpts;
+        if (!opts.name) opts.name = "default";
         target[key] =
-          this.redisConnects.find((v) => v.connect.name === opts.name) ||
+          this.redisConnects.find((v) => v.options.name === opts.name) ||
           (await this.addConnect(opts));
       }
     }
