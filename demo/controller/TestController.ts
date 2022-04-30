@@ -1,4 +1,4 @@
-import { BaseController, Controller, Get } from "../../src";
+import { BaseController, Controller, Get } from "../../dist";
 @Controller("/test")
 export default class TestController extends BaseController {
   @Get("/hello")
