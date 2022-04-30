@@ -1,11 +1,11 @@
-import ngulf from "../";
+import Ngulf from "../dist";
 import TextController from "./controller/TestController";
 
-ngulf({
+const app = Ngulf.create({
   routePrefix: "/api",
   controllers: [TextController],
-}).then((server) => {
-  server.listen(8787).then(() => {
-    console.log("Ngulf listen on 8787");
-  });
+});
+
+app.listen(8787).then(() => {
+  console.log("Ngulf listen on 8787");
 });

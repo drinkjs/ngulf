@@ -9,26 +9,12 @@ import hooks from "../hooks";
 
 export default async function loader(
   fastify: FastifyInstance,
-  opts?: NgulfOptions,
-  callBack?: {
-    onBindBefore?: (server: FastifyInstance) => Promise<any>;
-    onBind?: (server: FastifyInstance) => Promise<any>;
-  }
+  opts?: NgulfOptions
 ) {
   await plugin(fastify, opts);
   await hooks(fastify, opts);
 
-  if (callBack?.onBindBefore) {
-    // 路由绑定前调用
-    await callBack.onBindBefore(fastify);
-  }
-
   Router.getInstance(fastify, opts);
-
-  if (callBack?.onBind) {
-    // 路由绑定后调用
-    await callBack.onBind(fastify);
-  }
 
   if (opts?.mongo) {
     Mongoer.getInstance().inject(opts.mongo);

@@ -1,12 +1,43 @@
-/// <reference path="../node_modules/mongoose/types/index.d.ts" />
+/* eslint-disable no-unused-vars */
+import "reflect-metadata";
+import "colors";
+import Fastify, {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+} from "fastify";
+import { NgulfOptions } from "./config";
+import loader from "./loader";
+export default class Ngulf {
+  private options?: NgulfOptions;
+  private _server: FastifyInstance;
 
-import fastify, { FastifyReply, FastifyRequest } from "fastify";
-import IORedis from "ioredis";
-import ngulf from "./server";
+  constructor(options?: NgulfOptions) {
+    this.options = options;
+    this._server = Fastify({
+      logger: options?.logger,
+    });
+  }
 
-export default ngulf;
+  static create(options?: NgulfOptions) {
+    return new Ngulf(options);
+  }
 
-export { fastify, IORedis };
+  get server() {
+    return this._server;
+  }
+
+  async listen(port: number | string, address?: string, backlog?: number) {
+    try {
+      await loader(this.server, this.options);
+      await this.server.listen(port, address, backlog);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  }
+}
+
 export * from "./config";
 export * from "./controller/BaseController";
 export * from "./core";
