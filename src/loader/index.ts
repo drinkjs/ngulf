@@ -14,15 +14,15 @@ export default async function loader(
   await plugin(fastify, opts);
   await hooks(fastify, opts);
 
-  Router.getInstance(fastify, opts);
+  Router.create(fastify, opts);
 
   if (opts?.mongo) {
-    Mongoer.getInstance().inject(opts.mongo);
+    await Mongoer.getInstance().inject(opts.mongo);
   }
   if (opts?.orm) {
-    Ormer.getInstance().inject(opts.orm);
+    await Ormer.getInstance().inject(opts.orm);
   }
   if (opts?.redis) {
-    Rediser.getInstance().inject(opts.redis);
+    await Rediser.getInstance().inject(opts.redis);
   }
 }

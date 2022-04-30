@@ -36,7 +36,7 @@ export default class Router {
   // eslint-disable-next-line no-use-before-define
   static instance: Router;
 
-  static getInstance(app: FastifyInstance, opts?: NgulfOptions) {
+  static create(app: FastifyInstance, opts?: NgulfOptions) {
     if (!Router.instance) {
       Router.instance = new Router(app, opts);
     }
