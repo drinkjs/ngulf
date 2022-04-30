@@ -1,5 +1,5 @@
 import { ReturnModelType } from "@typegoose/typegoose";
-import { ConnectionOptions, Repository } from "typeorm";
+import { DataSourceOptions, Repository } from "typeorm";
 import { Constructor } from "./IocDecorator";
 import Ormer from "../../common/Ormer";
 import Mongoer, { MongoConnectionOptions } from "../../common/Mongoer";
@@ -26,7 +26,7 @@ export function MgModel(
 
 export function OrmModel(
   entity: Constructor,
-  options?: ConnectionOptions
+  options?: DataSourceOptions
 ): PropertyDecorator {
   return (target: any, key: any) => {
     const preMetadata = Reflect.getMetadata(ORM_MODEL_METADATA, Ormer) || [];

@@ -1,9 +1,5 @@
 /* eslint-disable no-use-before-define */
-import {
-  createConnection,
-  ConnectionOptions,
-  getConnectionManager,
-} from "typeorm";
+import { DataSourceOptions, DataSource } from "typeorm";
 import { ORM_MODEL_METADATA } from "../core/decorator/ServiceDecorator";
 
 export default class Ormer {
@@ -16,19 +12,24 @@ export default class Ormer {
     return Ormer.instance;
   }
 
-  async addConnect(options: ConnectionOptions) {
-    const conn = await createConnection(options).catch((err) => {
+  dataSources: Map<string, DataSource> = new Map();
+
+  async addConnect(options: DataSourceOptions) {
+    const appDataSource = new DataSource(options);
+    const ds = await appDataSource.initialize().catch((err) => {
       throw err;
     });
-    if (conn) {
-      const connectOptions: any = options;
-      const connectInfo = `${options.type}@${connectOptions?.host}:${connectOptions?.port}`;
-      console.log(`${connectInfo} connected`.green);
-    }
-    return conn;
+    this.dataSources.set(options.name, ds);
+    // here you can start to work with your database
+    const connectOptions: any = options;
+    console.log(
+      `${options.type}@${connectOptions?.host}:${connectOptions?.port} connected`
+        .green
+    );
+    return ds;
   }
 
-  async inject(ormOpts: ConnectionOptions) {
+  async inject(ormOpts: DataSourceOptions) {
     // 注入orm repository
     const services: any[] = Reflect.getMetadata(ORM_MODEL_METADATA, Ormer);
     if (services) {
@@ -41,8 +42,8 @@ export default class Ormer {
         if (!opts.name) {
           opts.name = "default";
         }
-        const connection = getConnectionManager().has(opts.name)
-          ? getConnectionManager().get(opts.name)
+        const connection = this.dataSources.has(opts.name)
+          ? this.dataSources.get(opts.name)
           : await this.addConnect(opts);
         if (connection) {
           target[key] = connection.getRepository(entity);
