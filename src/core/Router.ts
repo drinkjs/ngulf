@@ -7,7 +7,7 @@ import {
   ROUTE_METADATA,
   ParamType,
 } from "./decorator/RouterDecorator";
-import WebsocketEmitter from "./WebsocketEmitter";
+import { WebsocketEmitter } from "./WebsocketEmitter";
 import { NgulfOptions } from "../config";
 import { RouterContext } from "../";
 

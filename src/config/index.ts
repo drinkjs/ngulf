@@ -8,7 +8,6 @@ import { Constructor } from "../core";
 // dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });
 
 // const staticPath = process.env.STATIC_PATH || `${process.cwd()}/public`;
-// console.info(staticPath.bgBlue);
 
 export interface NgulfOptions extends FastifyServerOptions {
   routePrefix?: string;
@@ -18,18 +17,6 @@ export interface NgulfOptions extends FastifyServerOptions {
   redis?: IORedis.RedisOptions;
   controllers?: Constructor<any>[];
 }
-
-// export interface IStaticConfig {
-//   readonly staticPrefix: string;
-//   readonly staticPath: string;
-//   readonly libPath: string;
-// }
-
-// export const defaultStaticConfig: IStaticConfig = {
-//   staticPrefix: "/public/",
-//   staticPath, // 所有静态文件存放访目录，用户上传的图片也存在这，生产环境建议放在cdn或nginx下
-//   libPath: process.env.LIBS_PATH || `${staticPath}/libs`, // 组件上传后存放的目录，生产环境建议放在cdn或nginx下
-// };
 
 // const defaultConfig: NgulfOptions = {
 // websocket: false,

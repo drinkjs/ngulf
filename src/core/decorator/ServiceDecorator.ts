@@ -5,7 +5,7 @@ import Ormer from "../../common/Ormer";
 import Mongoer, { MongoConnectionOptions } from "../../common/Mongoer";
 import Rediser from "../../common/Rediser";
 
-import WebsocketEmitter from "../WebsocketEmitter";
+import { WebsocketEmitter } from "../WebsocketEmitter";
 import IORedis from "ioredis";
 
 export const ORM_MODEL_METADATA = "orm_model_metadata";

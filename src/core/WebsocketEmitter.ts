@@ -12,7 +12,7 @@ export interface WsClient {
   socket: any;
 }
 
-export interface WsMess {
+export interface WsMessage {
   event: string;
   data: { [key: string]: any };
 }
@@ -20,9 +20,10 @@ export interface WsMess {
 export const WebsocketEvent = {
   connection: Symbol("connection"),
   disconnect: Symbol("disconnect"),
+  message: Symbol("message"),
 };
 
-export default class WebsocketEmitter extends Events.EventEmitter {
+export class WebsocketEmitter extends Events.EventEmitter {
   private server: Ws.Server | undefined;
 
   private clients: WsClient[] = [];
@@ -43,23 +44,20 @@ export default class WebsocketEmitter extends Events.EventEmitter {
       this.emit(WebsocketEvent.connection, wsClient);
 
       client.on("message", (msg) => {
-        const client = this.getClientById(wsClient.id);
-        client && this.onMessage(client, msg);
+        this.emit(WebsocketEvent.message, wsClient);
+        this.onMessage(wsClient, msg);
       });
 
       client.on("close", () => {
-        const client = this.getClientById(wsClient.id);
-        client && this.onClose(client);
+        this.onClose(wsClient);
       });
 
       client.on("pong", () => {
-        const client = this.getClientById(wsClient.id);
-        client && this.heartbeat(client);
+        this.heartbeat(wsClient);
       });
 
       client.on("error", (err) => {
-        const client = this.getClientById(wsClient.id);
-        client && this.onError(client, err);
+        this.onError(wsClient, err);
       });
     });
 
@@ -94,7 +92,7 @@ export default class WebsocketEmitter extends Events.EventEmitter {
    */
   onMessage(target: WsClient, msg: any) {
     try {
-      const msgObj: WsMess = JSON.parse(msg);
+      const msgObj: WsMessage = JSON.parse(msg);
       this.emit(msgObj.event, msgObj.data, target, this);
     } catch (e) {
       console.error(e);
