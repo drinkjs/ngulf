@@ -1,6 +1,6 @@
 {
   "name": "ngulf",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "北部湾",
   "engines": {
     "node": ">=14.0.0"
