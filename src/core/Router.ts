@@ -1,6 +1,10 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import AppError from "../common/AppError";
-import { IocFactory } from "./decorator/IocDecorator";
+import {
+  getInject,
+  INJECT_METADATA,
+  IocFactory,
+} from "./decorator/IocDecorator";
 import {
   CONTROLLER_METADATA,
   PARAM_METADATA,
@@ -102,6 +106,16 @@ export default class Router {
     if (this.wss) {
       this.wss.listen({ server: serverInstance.server });
     }
+
+    // 解释@Inject
+    const injects = Reflect.getMetadata(INJECT_METADATA, Router);
+    injects?.forEach(({ key, target, type }) => {
+      if (/^class[\s{]/.test(type.toString())) {
+        target[key] = getInject(type);
+      } else {
+        target[key] = getInject(type());
+      }
+    });
   }
 
   /**

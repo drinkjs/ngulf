@@ -9,4 +9,8 @@ export default class TestService {
 
   @OrmModel(TestEntity)
   private model!: OrmModelType<TestEntity>;
+
+  hello() {
+    console.log("---------hello test------------");
+  }
 }

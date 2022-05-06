@@ -10,7 +10,7 @@
     "test": "npm run build && cd demo && npm start",
     "build": "node scripts/build.js",
     "release": "npm run build && cd dist && npm publish",
-    "tsc":"tsc",
+    "tsc": "tsc",
     "test:ts": "ts-node demo/test.ts"
   },
   "repository": {
@@ -25,19 +25,19 @@
   },
   "homepage": "https://github.com/drinkjs/ngulf#readme",
   "dependencies": {
-    "fastify": "^3.28.0",
+    "@typegoose/typegoose": "^9.8.1",
     "class-transformer": "0.3.1",
     "class-validator": "0.13.0",
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
+    "fastify": "^3.28.0",
     "ioredis": "^4.27.3",
     "mongoose": "^6.3.1",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.6",
     "uuid": "^3.3.2",
-    "ws": "^7.4.2",
-    "@typegoose/typegoose": "^9.8.1"
+    "ws": "^7.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",

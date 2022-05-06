@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ESNext",
+    "target": "es2020",
     "inlineSourceMap": true,
     "outDir": "dist",
     "incremental": true,
