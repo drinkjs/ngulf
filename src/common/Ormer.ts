@@ -19,7 +19,7 @@ export default class Ormer {
     const ds = await appDataSource.initialize().catch((err) => {
       throw err;
     });
-    this.dataSources.set(options.name, ds);
+    this.dataSources.set(options.name || "default", ds);
     // here you can start to work with your database
     const connectOptions: any = options;
     console.log(

@@ -37,6 +37,8 @@ export default class Router {
 
   private wss: WebsocketEmitter | undefined;
 
+  private allRoute: Record<string, string[]> = {};
+
   // eslint-disable-next-line no-use-before-define
   static instance: Router;
 
@@ -68,6 +70,7 @@ export default class Router {
         (n) => n !== "constructor" && typeof proto[n] === "function"
       );
 
+      const currRoutes: string[] = [];
       routeNameArr.forEach((routeName) => {
         const routeMetadata: any = Reflect.getMetadata(
           ROUTE_METADATA,
@@ -82,6 +85,8 @@ export default class Router {
           typeof path === "string"
             ? `${opts.routePrefix || ""}` + controllerMetadata + path
             : path;
+
+        currRoutes.push(urlPath);
         // webaocket事件
         if (this.wss && type === "ws") {
           this.wss.on(urlPath, selfFun);
@@ -101,6 +106,8 @@ export default class Router {
         });
         console.info(`${type.toUpperCase()} ${urlPath}`.blue);
       });
+
+      this.allRoute[controllerMetadata] = currRoutes;
     });
 
     if (this.wss) {
@@ -109,7 +116,7 @@ export default class Router {
 
     // 解释@Inject
     const injects = Reflect.getMetadata(INJECT_METADATA, Router);
-    injects?.forEach(({ key, target, type }) => {
+    injects?.forEach(({ key, target, type }: any) => {
       if (/^class[\s{]/.test(type.toString())) {
         target[key] = getInject(type);
       } else {
@@ -124,7 +131,7 @@ export default class Router {
    * @param paramList
    */
   // eslint-disable-next-line no-unused-vars
-  handlerFactory(func: (...args: any[]) => any, paramList: any[]) {
+  private handlerFactory(func: (...args: any[]) => any, paramList: any[]) {
     return async (req: FastifyRequest, res: FastifyReply) => {
       const ctx: RouterContext = { req, res };
       // 获取路由函数的参数
@@ -135,7 +142,10 @@ export default class Router {
     };
   }
 
-  async extractParameters(ctx: RouterContext, paramArr: ParamType[] = []) {
+  private async extractParameters(
+    ctx: RouterContext,
+    paramArr: ParamType[] = []
+  ) {
     if (!paramArr.length) return [ctx];
     const { req } = ctx;
 
@@ -180,5 +190,12 @@ export default class Router {
 
     checkArgs.push(ctx);
     return checkArgs;
+  }
+
+  getRoutes(controller?: string) {
+    if (controller) {
+      return this.allRoute[controller];
+    }
+    return this.allRoute;
   }
 }
