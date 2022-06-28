@@ -192,10 +192,12 @@ export default class Router {
     return checkArgs;
   }
 
-  getRoutes(controller?: string) {
+  getRoutes(controller?: string): string[] | undefined {
     if (controller) {
       return this.allRoute[controller];
     }
-    return this.allRoute;
+    const routes: string[] = [];
+    Object.values(this.allRoute).forEach((v) => routes.push(...v));
+    return routes;
   }
 }
