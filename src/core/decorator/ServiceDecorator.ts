@@ -6,7 +6,7 @@ import Mongoer, { MongoConnectionOptions } from "../../common/Mongoer";
 import Rediser from "../../common/Rediser";
 
 import { WebsocketEmitter } from "../WebsocketEmitter";
-import IORedis from "ioredis";
+import { RedisOptions } from "ioredis";
 
 export const ORM_MODEL_METADATA = "orm_model_metadata";
 export const MG_MODEL_METADATA = "mg_model_metadata";
@@ -35,7 +35,7 @@ export function OrmModel(
   };
 }
 
-export function RedisModel(options?: IORedis.RedisOptions): PropertyDecorator {
+export function RedisModel(options?: RedisOptions): PropertyDecorator {
   return (target: any, key: any) => {
     const preMetadata =
       Reflect.getMetadata(CACHE_MODEL_METADATA, Rediser) || [];

@@ -1,5 +1,5 @@
 import { CACHE_MODEL_METADATA } from "../core/decorator";
-import IORedis from "ioredis";
+import IORedis, { RedisOptions } from "ioredis";
 
 // sudo service redis-server restart
 
@@ -14,9 +14,9 @@ export default class Rediser {
     return Rediser.instance;
   }
 
-  private redisConnects: IORedis.Redis[] = [];
+  private redisConnects: IORedis[] = [];
 
-  async addConnect(opts: IORedis.RedisOptions) {
+  async addConnect(opts: RedisOptions) {
     const redis = new IORedis(opts);
     return new Promise((resolve, reject) => {
       redis.once("connect", () => {
@@ -30,12 +30,12 @@ export default class Rediser {
     });
   }
 
-  async inject(redisOpts: IORedis.RedisOptions) {
+  async inject(redisOpts: RedisOptions) {
     const services: any[] = Reflect.getMetadata(CACHE_MODEL_METADATA, Rediser);
     if (services) {
       for (const service of services) {
         const { key, target, options } = service;
-        const opts: IORedis.RedisOptions = options || redisOpts;
+        const opts: RedisOptions = options || redisOpts;
         if (!opts.name) opts.name = "default";
         target[key] =
           this.redisConnects.find((v) => v.options.name === opts.name) ||

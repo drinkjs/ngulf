@@ -1,5 +1,5 @@
 // import * as dotenv from "dotenv";
-import IORedis from "ioredis";
+import { RedisOptions } from "ioredis";
 import { MongoConnectionOptions } from "../common/Mongoer";
 import { DataSourceOptions } from "typeorm";
 import { FastifyServerOptions } from "fastify";
@@ -14,7 +14,7 @@ export interface NgulfOptions extends FastifyServerOptions {
   websocket?: boolean;
   mongo?: MongoConnectionOptions;
   orm?: DataSourceOptions;
-  redis?: IORedis.RedisOptions;
+  redis?: RedisOptions;
   controllers?: Constructor<any>[];
 }
 
