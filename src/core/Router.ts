@@ -104,12 +104,12 @@ export default class Router {
           // onRequest: this.server.csrfProtection,
           handler,
         });
-        if (instance.__init__) {
-          instance.__init__();
-        }
         console.info(`${type.toUpperCase()} ${urlPath}`.blue);
       });
 
+      if (instance.__init__) {
+        instance.__init__();
+      }
       this.allRoute[controllerMetadata] = currRoutes;
     });
 
