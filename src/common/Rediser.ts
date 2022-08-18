@@ -17,6 +17,7 @@ export default class Rediser {
   private redisConnects: IORedis[] = [];
 
   async addConnect(opts: RedisOptions) {
+    if (!opts.name) opts.name = "default";
     const redis = new IORedis(opts);
     return new Promise((resolve, reject) => {
       redis.once("connect", () => {
@@ -24,7 +25,7 @@ export default class Rediser {
         console.log(`redis@${opts?.host}:${opts?.port} connected`.green);
         resolve(redis);
       });
-      redis.on("error", (err) => {
+      redis.once("error", (err) => {
         throw err;
       });
     });
