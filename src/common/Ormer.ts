@@ -17,7 +17,7 @@ export default class Ormer {
   async addConnect(options: DataSourceOptions) {
     const appDataSource = new DataSource(options);
     const ds = await appDataSource.initialize().catch((err) => {
-      console.log(err);
+      throw err;
     });
     if (!ds) return;
     this.dataSources.set(options.name || "default", ds);

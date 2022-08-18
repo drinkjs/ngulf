@@ -14,6 +14,16 @@ export default async function loader(
   await plugin(fastify, opts);
   await hooks(fastify, opts);
 
+  if (opts?.orm) {
+    await Ormer.getInstance().addConnect(opts.orm);
+  }
+  if (opts?.redis) {
+    await Rediser.getInstance().addConnect(opts?.redis);
+  }
+  if (opts?.mongo) {
+    await Mongoer.getInstance().addConnect(opts.mongo);
+  }
+
   Router.create(fastify, opts);
 
   if (opts?.mongo) {
