@@ -15,23 +15,6 @@ import { WebsocketEmitter } from "./WebsocketEmitter";
 import { NgulfOptions } from "../config";
 import { RouterContext } from "../";
 
-// function selfish(target: any) {
-//   const cache = new WeakMap();
-//   const handler = {
-//     get(self: any, key: any) {
-//       const value = Reflect.get(self, key);
-//       if (typeof value !== "function") {
-//         return value;
-//       }
-//       if (!cache.has(value)) {
-//         cache.set(value, value.bind(self));
-//       }
-//       return cache.get(value);
-//     },
-//   };
-//   const proxy = new Proxy(target, handler);
-//   return proxy;
-// }
 export default class Router {
   private server: FastifyInstance;
 
@@ -107,6 +90,7 @@ export default class Router {
         console.info(`${type.toUpperCase()} ${urlPath}`.blue);
       });
 
+      instance.__server__ = this.server;
       if (instance.__init__) {
         instance.__init__();
       }
@@ -185,7 +169,7 @@ export default class Router {
         checkArgs[index] = await validator.check(paramType, args[index]);
       } else {
         if (key && (args[index] === undefined || args[index] === "")) {
-          AppError.assert(`${key}不能为空`);
+          AppError.assert(`${key} is empty`);
         }
         checkArgs[index] = args[index];
       }

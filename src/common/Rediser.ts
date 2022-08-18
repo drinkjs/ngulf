@@ -25,7 +25,7 @@ export default class Rediser {
         resolve(redis);
       });
       redis.on("error", (err) => {
-        throw err;
+        console.log(err);
       });
     });
   }

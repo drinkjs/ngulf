@@ -17,8 +17,9 @@ export default class Ormer {
   async addConnect(options: DataSourceOptions) {
     const appDataSource = new DataSource(options);
     const ds = await appDataSource.initialize().catch((err) => {
-      throw err;
+      console.log(err);
     });
+    if (!ds) return;
     this.dataSources.set(options.name || "default", ds);
     // here you can start to work with your database
     const connectOptions: any = options;
@@ -27,6 +28,10 @@ export default class Ormer {
         .green
     );
     return ds;
+  }
+
+  getDataSource(name?: string) {
+    return this.dataSources.get(name || "default");
   }
 
   async inject(ormOpts: DataSourceOptions) {
