@@ -125,7 +125,9 @@ export default class Router {
       const args = await this.extractParameters(ctx, paramList);
 
       const rel = await func(...args);
-      res.send(rel);
+      if (rel !== undefined) {
+        res.send(rel);
+      }
     };
   }
 
