@@ -2,7 +2,7 @@
 import { RedisOptions } from "ioredis";
 import { MongoConnectionOptions } from "../common/Mongoer";
 import { DataSourceOptions } from "typeorm";
-import { FastifyServerOptions } from "fastify";
+import { FastifyInstance, FastifyServerOptions } from "fastify";
 import { Constructor } from "../core";
 
 // dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });
@@ -16,6 +16,8 @@ export interface NgulfOptions extends FastifyServerOptions {
   orm?: DataSourceOptions;
   redis?: RedisOptions;
   controllers?: Constructor<any>[];
+  plugin?: (fastify: FastifyInstance) => Promise<any>;
+  hooks?: (fastify: FastifyInstance) => Promise<any>;
 }
 
 // const defaultConfig: NgulfOptions = {

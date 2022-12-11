@@ -1,7 +1,7 @@
 import * as Events from "events";
 import * as Ws from "ws";
-import { v4 as uuidv4 } from "uuid";
 import { WSS_METADATA } from "./decorator";
+import { randomUUID } from "crypto";
 
 export interface WsClient {
   id: string;
@@ -34,9 +34,9 @@ export class WebsocketEmitter extends Events.EventEmitter {
     this.server.on("connection", (client, req) => {
       const wsClient: WsClient = {
         isAlive: true,
-        id: uuidv4(),
+        id: randomUUID(),
         ip: req.socket.remoteAddress || "",
-        room: req.headers.origin || uuidv4(),
+        room: req.headers.origin || randomUUID(),
         socket: client,
       };
       this.clients.push(wsClient);

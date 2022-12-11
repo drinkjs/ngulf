@@ -22,12 +22,14 @@ export default class Router {
 
   private allRoute: Record<string, string[]> = {};
 
+  private opts?: NgulfOptions;
+
   // eslint-disable-next-line no-use-before-define
   static instance: Router;
 
-  static create(app: FastifyInstance, opts?: NgulfOptions) {
+  static create(server: FastifyInstance, opts?: NgulfOptions) {
     if (!Router.instance) {
-      Router.instance = new Router(app, opts);
+      Router.instance = new Router(server, opts);
     }
 
     return Router.instance;
@@ -35,13 +37,15 @@ export default class Router {
 
   constructor(serverInstance: FastifyInstance, opts?: NgulfOptions) {
     this.server = serverInstance;
-
+    this.opts = opts;
     if (opts?.websocket) {
       this.wss = new WebsocketEmitter();
     }
+  }
 
+  bind() {
     // ioc方式生成controller
-    opts?.controllers?.forEach((controller) => {
+    this.opts?.controllers?.forEach((controller) => {
       const instance = IocFactory(controller);
       const controllerMetadata: string = Reflect.getMetadata(
         CONTROLLER_METADATA,
@@ -66,7 +70,7 @@ export default class Router {
         const selfFun = instance[routeName].bind(instance);
         const urlPath =
           typeof path === "string"
-            ? `${opts.routePrefix || ""}` + controllerMetadata + path
+            ? `${this.opts?.routePrefix || ""}` + controllerMetadata + path
             : path;
 
         currRoutes.push(urlPath);
@@ -98,7 +102,7 @@ export default class Router {
     });
 
     if (this.wss) {
-      this.wss.listen({ server: serverInstance.server });
+      this.wss.listen({ server: this.server.server });
     }
 
     // 解释@Inject

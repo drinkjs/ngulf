@@ -1,5 +1,5 @@
 import { ReturnModelType } from "@typegoose/typegoose";
-import { DataSourceOptions, Repository } from "typeorm";
+import { DataSourceOptions, ObjectLiteral, Repository } from "typeorm";
 import { Constructor } from "./IocDecorator";
 import Ormer from "../../common/Ormer";
 import Mongoer, { MongoConnectionOptions } from "../../common/Mongoer";
@@ -54,4 +54,4 @@ export function WebSocketServer(): PropertyDecorator {
 }
 
 export type MgModelType<T> = ReturnModelType<Constructor<T>>;
-export type OrmModelType<T> = Repository<T>;
+export type OrmModelType<T extends ObjectLiteral> = Repository<T>;
