@@ -18,4 +18,5 @@ export interface NgulfOptions extends FastifyServerOptions {
   controllers?: Constructor<any>[];
   plugin?: (fastify: FastifyInstance, opts?: NgulfOptions) => Promise<any>;
   hooks?: (fastify: FastifyInstance, opts?: NgulfOptions) => Promise<any>;
+  http2?: boolean;
 }

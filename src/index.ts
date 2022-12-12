@@ -39,9 +39,16 @@ export default class Ngulf {
 
   constructor(options?: NgulfOptions) {
     this.options = options;
-    this._server = Fastify({
-      logger: options?.logger,
-    });
+    if (options?.http2) {
+      this._server = Fastify({
+        logger: options?.logger,
+        http2: true,
+      });
+    } else {
+      this._server = Fastify({
+        logger: options?.logger,
+      });
+    }
   }
 
   static create(options?: NgulfOptions) {
