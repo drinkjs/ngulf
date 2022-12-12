@@ -11,6 +11,7 @@ import { NgulfOptions } from "./config";
 import plugin from "./plugin";
 import hooks from "./hooks";
 import Router from "./core/Router";
+import { Ormer, Rediser } from "./common";
 export * from "./config";
 export * from "./controller/BaseController";
 export * from "./core";
@@ -63,18 +64,37 @@ export default class Ngulf {
       if (this.options?.plugin) {
         await this.server.register((fastify, options, done) => {
           this.options?.plugin &&
-            this.options.plugin(fastify).then(() => {
+            this.options.plugin(fastify, this.options).then(() => {
               done();
             });
         });
       }
-
-      await this.server.register(hooks);
-
-      // 注册路由
+      // 系统hooks
       await this.server.register((fastify, options, done) => {
-        // loader(fastify, this.options);
+        hooks(fastify, this.options).then(() => {
+          done();
+        });
+      });
+      // 外部hooks
+      if (this.options?.hooks) {
+        await this.server.register((fastify, options, done) => {
+          this.options?.hooks &&
+            this.options.hooks(fastify, this.options).then(() => {
+              done();
+            });
+        });
+      }
+      // 注册路由
+      await this.server.register(async (fastify, options, done) => {
         Router.create(fastify, this.options).bind();
+        if (this.options?.orm) {
+          // 注入typeorm
+          await Ormer.create().inject(this.options?.orm);
+        }
+        if (this.options?.redis) {
+          // 注入ioredis
+          await Rediser.create().inject(this.options?.redis);
+        }
         done();
       });
 

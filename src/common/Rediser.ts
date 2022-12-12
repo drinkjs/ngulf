@@ -7,7 +7,7 @@ export default class Rediser {
   // eslint-disable-next-line no-use-before-define
   static instance: Rediser;
 
-  static getInstance() {
+  static create() {
     if (!Rediser.instance) {
       Rediser.instance = new Rediser();
     }

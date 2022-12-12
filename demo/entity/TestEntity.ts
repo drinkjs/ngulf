@@ -1,8 +1,15 @@
-import { Entity, Column } from "../../dist/typeorm";
-import BaseORMEntity from "./BaseORMEntity";
+import {
+  Entity,
+  Column,
+  Index,
+  PrimaryGeneratedColumn,
+} from "../../src/typeorm";
 
-@Entity()
-export default class Test extends BaseORMEntity {
+@Entity({ name: "test" })
+export default class TestEntity {
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
+
   @Column()
-    name!: string;
+  name!: string;
 }

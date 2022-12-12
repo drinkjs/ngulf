@@ -11,7 +11,7 @@
     "release": "npm run build && cd dist && npm publish",
     "tsc": "tsc",
     "test": "jest --verbose ./__test__",
-    "debug": "ts-node ./debug.ts --files"
+    "demo": "ts-node ./demo/app.ts --files"
   },
   "repository": {
     "type": "git",

@@ -5,7 +5,7 @@ import { ORM_MODEL_METADATA } from "../core/decorator/ServiceDecorator";
 export default class Ormer {
   static instance: Ormer;
 
-  static getInstance() {
+  static create() {
     if (!Ormer.instance) {
       Ormer.instance = new Ormer();
     }

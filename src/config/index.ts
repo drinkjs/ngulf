@@ -16,8 +16,8 @@ export interface NgulfOptions extends FastifyServerOptions {
   orm?: DataSourceOptions;
   redis?: RedisOptions;
   controllers?: Constructor<any>[];
-  plugin?: (fastify: FastifyInstance) => Promise<any>;
-  hooks?: (fastify: FastifyInstance) => Promise<any>;
+  plugin?: (fastify: FastifyInstance, opts?: NgulfOptions) => Promise<any>;
+  hooks?: (fastify: FastifyInstance, opts?: NgulfOptions) => Promise<any>;
 }
 
 // const defaultConfig: NgulfOptions = {

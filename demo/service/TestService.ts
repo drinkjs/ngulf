@@ -1,16 +1,18 @@
-import { Injectable, RedisModel, OrmModelType, OrmModel } from "../../dist";
-import IORedis from "../../dist/ioredis";
+import { Injectable, OrmModel, OrmModelType } from "../../src";
 import TestEntity from "../entity/TestEntity";
 
 @Injectable()
-export default class TestService {
-  @RedisModel()
-  private redis!: IORedis.Redis;
-
+export default class EmailService {
   @OrmModel(TestEntity)
   private model!: OrmModelType<TestEntity>;
 
-  hello() {
-    console.log("---------hello test------------");
+  async query(name: string) {
+    return await this.model.findOneBy({ name });
+  }
+
+  async add(name: string) {
+    const data = this.model.create();
+    data.name = name;
+    return await this.model.save(data);
   }
 }
