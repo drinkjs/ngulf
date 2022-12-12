@@ -7,7 +7,7 @@ import Fastify, {
   FastifyReply,
   FastifyRequest,
 } from "fastify";
-import { NgulfOptions } from "./config";
+import { NgulfHttpOptions, NgulfHtt2Options, NgulfHttsOptions } from "./config";
 import plugin from "./plugin";
 import hooks from "./hooks";
 import Router from "./core/Router";
@@ -34,24 +34,46 @@ export interface ExceptionFilter {
 }
 
 export default class Ngulf {
-  private readonly options?: NgulfOptions;
+  private readonly options?:
+    | NgulfHttpOptions
+    | NgulfHtt2Options
+    | NgulfHttsOptions;
+
   private readonly _server: FastifyInstance;
 
-  constructor(options?: NgulfOptions) {
+  constructor(options?: NgulfHttpOptions | NgulfHtt2Options | NgulfHttsOptions);
+  constructor(options: NgulfHttpOptions);
+  constructor(options: NgulfHtt2Options);
+  constructor(options: NgulfHttsOptions);
+  constructor(
+    options?: NgulfHttpOptions | NgulfHtt2Options | NgulfHttsOptions
+  ) {
     this.options = options;
-    if (options?.http2) {
+    if (!options) {
+      this._server = Fastify();
+    } else if ((options as NgulfHtt2Options).http2) {
+      // http2
       this._server = Fastify({
-        logger: options?.logger,
+        logger: options?.logger as NgulfHttsOptions["logger"],
         http2: true,
       });
-    } else {
+    } else if ((options as NgulfHttsOptions).https !== undefined) {
+      // https
       this._server = Fastify({
-        logger: options?.logger,
+        logger: options?.logger as NgulfHttpOptions["logger"],
+        https: (options as NgulfHttsOptions).https,
+      });
+    } else {
+      // http
+      this._server = Fastify({
+        logger: options?.logger as NgulfHttpOptions["logger"],
       });
     }
   }
 
-  static create(options?: NgulfOptions) {
+  static create(
+    options?: NgulfHttpOptions | NgulfHtt2Options | NgulfHttsOptions
+  ) {
     return new Ngulf(options);
   }
 

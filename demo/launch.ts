@@ -22,5 +22,4 @@ export const launch = () => {
   app.listen({ port: 8787 }).then(() => {
     console.log("Ngulf listen on 8787");
   });
-  return app;
 };

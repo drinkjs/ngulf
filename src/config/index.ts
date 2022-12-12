@@ -1,22 +1,31 @@
-// import * as dotenv from "dotenv";
+import * as http2 from "http2";
+import * as https from "https";
 import { RedisOptions } from "ioredis";
 import { MongoConnectionOptions } from "../common/Mongoer";
 import { DataSourceOptions } from "typeorm";
-import { FastifyInstance, FastifyServerOptions } from "fastify";
+import {
+  FastifyHttp2Options,
+  FastifyHttpsOptions,
+  FastifyInstance,
+  FastifyServerOptions,
+} from "fastify";
 import { Constructor } from "../core";
 
-// dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });
-
-// const staticPath = process.env.STATIC_PATH || `${process.cwd()}/public`;
-
-export interface NgulfOptions extends FastifyServerOptions {
+export type NgulfBaseOptions = {
   routePrefix?: string;
   websocket?: boolean;
   mongo?: MongoConnectionOptions;
   orm?: DataSourceOptions;
   redis?: RedisOptions;
   controllers?: Constructor<any>[];
-  plugin?: (fastify: FastifyInstance, opts?: NgulfOptions) => Promise<any>;
-  hooks?: (fastify: FastifyInstance, opts?: NgulfOptions) => Promise<any>;
-  http2?: boolean;
-}
+  plugin?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
+  hooks?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
+};
+
+export type NgulfHttpOptions = NgulfBaseOptions & FastifyServerOptions;
+
+export type NgulfHtt2Options = NgulfBaseOptions &
+  FastifyHttp2Options<http2.Http2Server>;
+
+export type NgulfHttsOptions = NgulfBaseOptions &
+  FastifyHttpsOptions<https.Server>;

@@ -19,20 +19,16 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/drinkjs/ngulf/issues"
   },
   "homepage": "https://github.com/drinkjs/ngulf#readme",
   "dependencies": {
     "@typegoose/typegoose": "9.9.0",
-    "@typescript-eslint/parser": "^5.46.0",
     "class-transformer": "0.3.1",
     "class-validator": "0.13.0",
     "colors": "^1.4.0",
-    "dotenv": "^8.2.0",
-    "eslint": "^8.29.0",
-    "eslint-config-standard": "^17.0.0",
     "fastify": "^4.10.2",
     "ioredis": "^5.0.0",
     "mongoose": "6.3.9",
@@ -40,10 +36,12 @@
     "node-fetch": "^2.6.7",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.11",
-    "uuid": "^3.3.2",
     "ws": "^7.4.2"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^5.46.0",
+    "eslint": "^8.29.0",
+    "eslint-config-standard": "^17.0.0",
     "@babel/core": "^7.13.15",
     "@babel/preset-env": "^7.13.15",
     "@types/busboy": "^0.2.3",

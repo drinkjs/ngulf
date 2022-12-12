@@ -12,7 +12,7 @@ import {
   ParamType,
 } from "./decorator/RouterDecorator";
 import { WebsocketEmitter } from "./WebsocketEmitter";
-import { NgulfOptions } from "../config";
+import { NgulfBaseOptions } from "../config";
 import { RouterContext } from "../";
 
 export default class Router {
@@ -22,12 +22,12 @@ export default class Router {
 
   private allRoute: Record<string, string[]> = {};
 
-  private opts?: NgulfOptions;
+  private opts?: NgulfBaseOptions;
 
   // eslint-disable-next-line no-use-before-define
   static instance: Router;
 
-  static create(server: FastifyInstance, opts?: NgulfOptions) {
+  static create(server: FastifyInstance, opts?: NgulfBaseOptions) {
     if (!Router.instance) {
       Router.instance = new Router(server, opts);
     }
@@ -35,7 +35,7 @@ export default class Router {
     return Router.instance;
   }
 
-  constructor(serverInstance: FastifyInstance, opts?: NgulfOptions) {
+  constructor(serverInstance: FastifyInstance, opts?: NgulfBaseOptions) {
     this.server = serverInstance;
     this.opts = opts;
     if (opts?.websocket) {

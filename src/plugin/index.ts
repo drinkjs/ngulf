@@ -1,10 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { Mongoer, Ormer, Rediser } from "../common";
-import { NgulfOptions } from "../config";
+import { NgulfBaseOptions } from "../config";
 
 export default async function plugin(
   server: FastifyInstance,
-  opts?: NgulfOptions
+  opts?: NgulfBaseOptions
 ) {
   if (opts?.orm) {
     await Ormer.create().addConnect(opts?.orm);
