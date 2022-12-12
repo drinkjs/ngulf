@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { Ormer, Rediser } from "../common";
+import { Mongoer, Ormer, Rediser } from "../common";
 import { NgulfOptions } from "../config";
 
 export default async function plugin(
@@ -11,5 +11,8 @@ export default async function plugin(
   }
   if (opts?.redis) {
     await Rediser.create().addConnect(opts?.redis);
+  }
+  if (opts?.mongo) {
+    await Mongoer.create().addConnect(opts.mongo);
   }
 }

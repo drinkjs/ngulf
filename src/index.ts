@@ -11,7 +11,7 @@ import { NgulfOptions } from "./config";
 import plugin from "./plugin";
 import hooks from "./hooks";
 import Router from "./core/Router";
-import { Ormer, Rediser } from "./common";
+import { Mongoer, Ormer, Rediser } from "./common";
 export * from "./config";
 export * from "./controller/BaseController";
 export * from "./core";
@@ -34,8 +34,8 @@ export interface ExceptionFilter {
 }
 
 export default class Ngulf {
-  private options?: NgulfOptions;
-  private _server: FastifyInstance;
+  private readonly options?: NgulfOptions;
+  private readonly _server: FastifyInstance;
 
   constructor(options?: NgulfOptions) {
     this.options = options;
@@ -94,6 +94,10 @@ export default class Ngulf {
         if (this.options?.redis) {
           // 注入ioredis
           await Rediser.create().inject(this.options?.redis);
+        }
+        if (this.options?.mongo) {
+          // 注入mongo
+          await Mongoer.create().inject(this.options?.mongo);
         }
         done();
       });

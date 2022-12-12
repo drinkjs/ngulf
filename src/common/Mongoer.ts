@@ -12,7 +12,7 @@ export interface MongoConnectionOptions {
 export default class Mongoer {
   static instance: Mongoer;
 
-  static getInstance() {
+  static create() {
     if (!Mongoer.instance) {
       Mongoer.instance = new Mongoer();
     }
