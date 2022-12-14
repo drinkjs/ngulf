@@ -56,6 +56,7 @@ export default class Ngulf {
       this._server = Fastify({
         logger: options?.logger as NgulfHttsOptions["logger"],
         http2: true,
+        http2SessionTimeout: (options as NgulfHtt2Options).http2SessionTimeout,
       });
     } else if ((options as NgulfHttsOptions).https !== undefined) {
       // https
