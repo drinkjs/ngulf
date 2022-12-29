@@ -1,6 +1,6 @@
 {
   "name": "ngulf",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "北部湾",
   "engines": {
     "node": ">=16.0.0"
@@ -26,11 +26,11 @@
   "homepage": "https://github.com/drinkjs/ngulf#readme",
   "dependencies": {
     "@typegoose/typegoose": "9.9.0",
-    "class-transformer": "0.3.1",
-    "class-validator": "0.13.0",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.0",
     "colors": "^1.4.0",
     "fastify": "^4.10.2",
-    "ioredis": "^5.0.0",
+    "ioredis": "^5.2.4",
     "mongoose": "6.3.9",
     "mysql2": "^2.3.3",
     "node-fetch": "^2.6.7",

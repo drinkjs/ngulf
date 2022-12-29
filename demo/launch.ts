@@ -18,6 +18,11 @@ export const launch = () => {
       bigNumberStrings: false,
       synchronize: true, // 生产环境必需为false，否则可能会丢失数据
     },
+    redis: {
+      host: "127.0.0.1",
+      port: 6379,
+      keyPrefix: "test:",
+    },
   });
   app.listen({ port: 8787 }).then(() => {
     console.log("Ngulf listen on 8787");
