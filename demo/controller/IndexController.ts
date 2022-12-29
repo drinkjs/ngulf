@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, Validation } from "../../src";
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  RouterContext,
+  Validation,
+} from "../../src";
 import TestDto from "../dto/TestDto";
 import TestService from "../service/TestService";
 
@@ -7,7 +15,8 @@ export default class IndexController {
   constructor(private readonly service: TestService) {}
 
   @Get("/get")
-  async getName(@Query("name") name: string) {
+  async getName(@Query("name") name: string, ctx: RouterContext) {
+    console.log(ctx.req.session);
     return await this.service.query(name);
   }
 

@@ -85,53 +85,31 @@ export default class Ngulf {
   async listen(params: FastifyListenOptions) {
     try {
       // 系统插件
-      await this.server.register((fastify, options, done) => {
-        plugin(fastify, this.options).then(() => {
-          done();
-        });
-      });
+      await plugin(this.server, this.options);
       // 外部插件
       if (this.options?.plugin) {
-        await this.server.register((fastify, options, done) => {
-          this.options?.plugin &&
-            this.options.plugin(fastify, this.options).then(() => {
-              done();
-            });
-        });
+        await this.options.plugin(this.server);
       }
       // 系统hooks
-      await this.server.register((fastify, options, done) => {
-        hooks(fastify, this.options).then(() => {
-          done();
-        });
-      });
+      await hooks(this.server, this.options);
       // 外部hooks
       if (this.options?.hooks) {
-        await this.server.register((fastify, options, done) => {
-          this.options?.hooks &&
-            this.options.hooks(fastify, this.options).then(() => {
-              done();
-            });
-        });
+        await this.options.hooks(this.server, this.options);
       }
       // 注册路由
-      await this.server.register(async (fastify, options, done) => {
-        Router.create(fastify, this.options).bind();
-        if (this.options?.orm) {
-          // 注入typeorm
-          await Ormer.create().inject(this.options?.orm);
-        }
-        if (this.options?.redis) {
-          // 注入ioredis
-          await Rediser.create().inject(this.options?.redis);
-        }
-        if (this.options?.mongo) {
-          // 注入mongo
-          await Mongoer.create().inject(this.options?.mongo);
-        }
-        done();
-      });
-
+      Router.create(this.server, this.options).bind();
+      if (this.options?.orm) {
+        // 注入typeorm
+        await Ormer.create().inject(this.options?.orm);
+      }
+      if (this.options?.redis) {
+        // 注入ioredis
+        await Rediser.create().inject(this.options?.redis);
+      }
+      if (this.options?.mongo) {
+        // 注入mongo
+        await Mongoer.create().inject(this.options?.mongo);
+      }
       await this.server.listen(params);
       return true;
     } catch (err) {

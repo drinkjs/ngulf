@@ -1,6 +1,7 @@
 import * as path from "path";
 import Ngulf from "../src";
 import IndexController from "./controller/IndexController";
+import plugin from "./plugin";
 
 export const launch = () => {
   const app = Ngulf.create({
@@ -23,6 +24,7 @@ export const launch = () => {
       port: 6379,
       keyPrefix: "test:",
     },
+    plugin,
   });
   app.listen({ port: 8787 }).then(() => {
     console.log("Ngulf listen on 8787");
