@@ -1,6 +1,5 @@
 import fetch from "node-fetch";
 import { describe, beforeAll, expect, test, afterAll } from "@jest/globals";
-import { spawn } from "child_process";
 
 describe("ngulf test", () => {
   test("post", async () => {

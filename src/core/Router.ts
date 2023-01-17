@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import AppError from "../common/AppError";
 import {
+  Constructor,
   getInject,
   INJECT_METADATA,
   IocFactory,
@@ -43,9 +44,9 @@ export default class Router {
     }
   }
 
-  bind() {
+  bind(controllers: Constructor<any>[]) {
     // ioc方式生成controller
-    this.opts?.controllers?.forEach((controller) => {
+    controllers.forEach((controller) => {
       const instance = IocFactory(controller);
       const controllerMetadata: string = Reflect.getMetadata(
         CONTROLLER_METADATA,

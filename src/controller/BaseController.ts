@@ -1,5 +1,10 @@
 import { HttpResult } from "../";
 
+type ListData<T> = {
+  list: T;
+  pagination: { current: number; pageSize: number; total: number };
+};
+
 export abstract class BaseController {
   fail<T>(msg: string, code = 1): HttpResult<T> {
     return {
@@ -16,12 +21,18 @@ export abstract class BaseController {
     };
   }
 
-  tableSuccess<T>(data: T, pagination?: any, msg?: string): HttpResult<T> {
+  listSuccess<T>(
+    data: T,
+    pagination: { current: number; pageSize: number; total: number },
+    msg?: string
+  ): HttpResult<ListData<T>> {
     return {
       code: 0,
-      data,
       msg,
-      ...pagination,
+      data: {
+        list: data,
+        pagination,
+      },
     };
   }
 }

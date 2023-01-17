@@ -17,7 +17,7 @@ export type NgulfBaseOptions = {
   mongo?: MongoConnectionOptions;
   orm?: DataSourceOptions;
   redis?: RedisOptions;
-  controllers?: Constructor<any>[];
+  controllers: Constructor<any>[] | string;
   plugin?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
   hooks?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
 };
