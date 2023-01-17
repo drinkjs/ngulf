@@ -15,8 +15,7 @@ export default class IndexController {
   constructor(private readonly service: TestService) {}
 
   @Get("/get")
-  async getName(@Query("name") name: string, ctx: RouterContext) {
-    console.log(ctx.req.session);
+  async getName(@Query("name") name: string) {
     return await this.service.query(name);
   }
 

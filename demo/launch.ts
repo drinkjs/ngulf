@@ -1,12 +1,11 @@
 import * as path from "path";
 import Ngulf from "../src";
-import IndexController from "./controller/IndexController";
 import plugin from "./plugin";
 
 export const launch = () => {
   const app = Ngulf.create({
     routePrefix: "/api",
-    controllers: [IndexController],
+    controllers: path.join(__dirname, "controller"),
     orm: {
       type: "mysql",
       port: 3306,
@@ -19,11 +18,11 @@ export const launch = () => {
       bigNumberStrings: false,
       synchronize: true, // 生产环境必需为false，否则可能会丢失数据
     },
-    redis: {
-      host: "127.0.0.1",
-      port: 6379,
-      keyPrefix: "test:",
-    },
+    // redis: {
+    //   host: "127.0.0.1",
+    //   port: 6379,
+    //   keyPrefix: "test:",
+    // },
     plugin,
   });
   app.listen({ port: 8787 }).then(() => {
