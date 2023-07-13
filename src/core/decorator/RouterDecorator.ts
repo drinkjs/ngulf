@@ -45,29 +45,35 @@ export interface ParamType {
 
 export function createParamDecorator(type: Param) {
   return (key?: any, validator?: any): ParameterDecorator =>
-    (target: any, name: string | symbol, index: number) => {
+    (
+      target: Object,
+      propertyKey: string | symbol | undefined,
+      parameterIndex: number
+    ) => {
+      if (!propertyKey) return;
+
       const paramsTypes = Reflect.getMetadata(
         "design:paramtypes",
         target,
-        name
+        propertyKey
       );
       // 这里要注意这里 defineMetadata 挂在 target.name 上
       // 但该函数的参数有顺序之分，下一个装饰器定义参数后覆盖之前的，所以要用 preMetadata 保存起来
       const preMetadata =
-        Reflect.getMetadata(PARAM_METADATA, target, name) || [];
+        Reflect.getMetadata(PARAM_METADATA, target, propertyKey) || [];
 
       const newMetadata = [
         {
           key,
-          index,
+          parameterIndex,
           type,
           validator,
-          paramType: paramsTypes[index],
+          paramType: paramsTypes[parameterIndex],
         },
         ...preMetadata,
       ];
 
-      Reflect.defineMetadata(PARAM_METADATA, newMetadata, target, name);
+      Reflect.defineMetadata(PARAM_METADATA, newMetadata, target, propertyKey);
     };
 }
 

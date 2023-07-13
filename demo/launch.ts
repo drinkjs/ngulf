@@ -18,6 +18,19 @@ export const launch = () => {
       bigNumberStrings: false,
       synchronize: true, // 生产环境必需为false，否则可能会丢失数据
     },
+    mongo: {
+      // see https://mongoosejs.com/
+      uris: "mongodb://127.0.0.1:27017",
+      options: {
+        dbName: "mojito",
+        // useNewUrlParser: true,
+        // useUnifiedTopology: true,
+        autoIndex: false,
+        serverSelectionTimeoutMS: 5000,
+        bufferCommands: false,
+        // useFindAndModify: false,
+      },
+    },
     // redis: {
     //   host: "127.0.0.1",
     //   port: 6379,
