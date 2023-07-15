@@ -48,7 +48,7 @@ export function createParamDecorator(type: Param) {
     (
       target: Object,
       propertyKey: string | symbol | undefined,
-      parameterIndex: number
+      index: number
     ) => {
       if (!propertyKey) return;
 
@@ -65,10 +65,10 @@ export function createParamDecorator(type: Param) {
       const newMetadata = [
         {
           key,
-          parameterIndex,
+          index,
           type,
           validator,
-          paramType: paramsTypes[parameterIndex],
+          paramType: paramsTypes[index],
         },
         ...preMetadata,
       ];
