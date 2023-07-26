@@ -9,12 +9,17 @@ export interface WsClient {
   room: string;
   isAlive: boolean;
   data?: any;
-  socket: any;
+  socket: Ws;
 }
 
-export interface WsMessage {
+export interface WsMessageEvent {
   event: string;
   data: { [key: string]: any };
+}
+
+export interface WsMessage<T = any> {
+  data: T;
+  target: WsClient;
 }
 
 export const WebsocketEvent = {
@@ -92,7 +97,7 @@ export class WebsocketEmitter extends Events.EventEmitter {
    */
   onMessage(target: WsClient, msg: string) {
     try {
-      const msgObj: WsMessage = JSON.parse(msg);
+      const msgObj: WsMessageEvent = JSON.parse(msg);
       this.emit(msgObj.event, { data: msgObj.data, target });
     } catch (e) {
       console.error(e);

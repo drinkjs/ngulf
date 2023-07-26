@@ -73,26 +73,28 @@ export default class Router {
           typeof path === "string"
             ? `${this.opts?.routePrefix || ""}` + controllerMetadata + path
             : path;
-
         currRoutes.push(urlPath);
-        // webaocket事件
         if (this.wss && type === "WSS") {
+          // webaocket事件
           this.wss.on(urlPath, selfFun);
-          return;
+          if (typeof urlPath === "string") {
+            console.info(`WSS ${urlPath}`.blue);
+          }
+        } else {
+          // http
+          const handler = this.handlerFactory(
+            selfFun,
+            Reflect.getMetadata(PARAM_METADATA, instance, routeName)
+          );
+          // 绑定路由
+          this.server.route({
+            method: type,
+            url: urlPath,
+            // onRequest: this.server.csrfProtection,
+            handler,
+          });
+          console.info(`${type} ${urlPath}`.blue);
         }
-
-        const handler = this.handlerFactory(
-          selfFun,
-          Reflect.getMetadata(PARAM_METADATA, instance, routeName)
-        );
-        // 绑定路由
-        this.server.route({
-          method: type,
-          url: urlPath,
-          // onRequest: this.server.csrfProtection,
-          handler,
-        });
-        console.info(`${type} ${urlPath}`.blue);
       });
 
       instance.__server__ = this.server;
