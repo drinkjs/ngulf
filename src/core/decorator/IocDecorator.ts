@@ -2,8 +2,8 @@ import Router from "../Router";
 
 const injectables: WeakMap<any, any> = new WeakMap();
 
-export const INJECTABLE_METADATA = "injectable_metadata";
-export const INJECT_METADATA = "inject_metadata";
+export const INJECTABLE_METADATA = Symbol.for("injectable_metadata");
+export const INJECT_METADATA = Symbol.for("inject_metadata");
 
 // eslint-disable-next-line no-unused-vars
 export type Constructor<T = any> = new (...args: any[]) => T;

@@ -76,7 +76,7 @@ export default class Router {
 
         currRoutes.push(urlPath);
         // webaocket事件
-        if (this.wss && type === "ws") {
+        if (this.wss && type === "WSS") {
           this.wss.on(urlPath, selfFun);
           return;
         }
@@ -87,12 +87,12 @@ export default class Router {
         );
         // 绑定路由
         this.server.route({
-          method: type.toUpperCase(),
+          method: type,
           url: urlPath,
           // onRequest: this.server.csrfProtection,
           handler,
         });
-        console.info(`${type.toUpperCase()} ${urlPath}`.blue);
+        console.info(`${type} ${urlPath}`.blue);
       });
 
       instance.__server__ = this.server;

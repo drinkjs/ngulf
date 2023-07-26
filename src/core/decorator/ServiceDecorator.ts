@@ -1,17 +1,16 @@
 import { ReturnModelType } from "@typegoose/typegoose";
+import { RedisOptions } from "ioredis";
 import { DataSourceOptions, ObjectLiteral, Repository } from "typeorm";
 import { Constructor } from "./IocDecorator";
 import Ormer from "../../common/Ormer";
 import Mongoer, { MongoConnectionOptions } from "../../common/Mongoer";
 import Rediser from "../../common/Rediser";
-
 import { WebsocketEmitter } from "../WebsocketEmitter";
-import { RedisOptions } from "ioredis";
 
-export const ORM_MODEL_METADATA = "orm_model_metadata";
-export const MG_MODEL_METADATA = "mg_model_metadata";
-export const CACHE_MODEL_METADATA = "cache_manager_metadata";
-export const WSS_METADATA = "wss_metadata";
+export const ORM_MODEL_METADATA = Symbol.for("orm_model_metadata");
+export const MG_MODEL_METADATA = Symbol.for("mg_model_metadata");
+export const CACHE_MODEL_METADATA = Symbol.for("cache_manager_metadata");
+export const WSS_METADATA = Symbol.for("wss_metadata");
 
 export function MgModel(
   model: Constructor,

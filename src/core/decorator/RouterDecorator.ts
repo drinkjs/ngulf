@@ -1,10 +1,16 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable no-unused-vars */
 import { Validation } from "../Validation";
 
-export const CONTROLLER_METADATA = "controller_metadata";
-export const ROUTE_METADATA = "method_metadata";
-export const PARAM_METADATA = "param_metadata";
+export const CONTROLLER_METADATA = Symbol.for("controller_metadata");
+export const ROUTE_METADATA = Symbol.for("method_metadata");
+export const PARAM_METADATA = Symbol.for("param_metadata");
+
+export interface ParamType {
+  key: string;
+  index: number;
+  type: string;
+  validator?: Validation;
+  paramType?: any;
+}
 
 export function Controller(path = ""): ClassDecorator {
   return (target: any) => {
@@ -23,10 +29,6 @@ export function createMethodDecorator(method: string = "get") {
     };
 }
 
-export const Get = createMethodDecorator("get");
-export const Post = createMethodDecorator("post");
-export const Ws = createMethodDecorator("ws");
-
 export type Param =
   | "params"
   | "query"
@@ -34,14 +36,6 @@ export type Param =
   | "headers"
   | "cookies"
   | "uploadFile";
-
-export interface ParamType {
-  key: string;
-  index: number;
-  type: string;
-  validator?: Validation;
-  paramType?: any;
-}
 
 export function createParamDecorator(type: Param) {
   return (key?: any, validator?: any): ParameterDecorator =>
@@ -75,55 +69,4 @@ export function createParamDecorator(type: Param) {
 
       Reflect.defineMetadata(PARAM_METADATA, newMetadata, target, propertyKey);
     };
-}
-
-// export const Headers = createParamDecorator("headers");
-
-export function Query(): ParameterDecorator;
-export function Query(property: string): ParameterDecorator;
-export function Query(validator: Validation): ParameterDecorator;
-export function Query(
-  property: string,
-  validator: Validation
-): ParameterDecorator;
-export function Query(property?: string | Validation, validator?: Validation) {
-  const hasParamData = property && typeof property === "string";
-  const key = hasParamData ? property : undefined;
-  const vail = hasParamData ? validator : property;
-  return createParamDecorator("query")(key, vail);
-}
-
-export function Body(): ParameterDecorator;
-export function Body(property: string): ParameterDecorator;
-export function Body(validator: Validation): ParameterDecorator;
-export function Body(
-  property: string,
-  validator: Validation
-): ParameterDecorator;
-export function Body(property?: string | Validation, validator?: Validation) {
-  const hasParamData = property && typeof property === "string";
-  const key = hasParamData ? property : undefined;
-  const vail = hasParamData ? validator : property;
-  return createParamDecorator("body")(key, vail);
-}
-
-export function Headers(): ParameterDecorator;
-export function Headers(property: string): ParameterDecorator;
-export function Headers(validator: Validation): ParameterDecorator;
-export function Headers(
-  property: string,
-  validator: Validation
-): ParameterDecorator;
-export function Headers(
-  property?: string | Validation,
-  validator?: Validation
-) {
-  const hasParamData = property && typeof property === "string";
-  const key = hasParamData ? property : undefined;
-  const vail = hasParamData ? validator : property;
-  return createParamDecorator("headers")(key, vail);
-}
-
-export function UploadedFile() {
-  return createParamDecorator("uploadFile")();
 }

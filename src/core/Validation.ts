@@ -3,7 +3,7 @@ import {
   ValidationError,
   ValidatorOptions,
 } from "class-validator";
-import { plainToClass } from "class-transformer";
+import { plainToInstance } from "class-transformer";
 import AppError from "../common/AppError";
 
 export interface ValidationOptions extends ValidatorOptions {
@@ -37,7 +37,7 @@ export class Validation {
   }
 
   transform(type: any, data: any) {
-    return plainToClass(type, data, { enableImplicitConversion: true });
+    return plainToInstance(type, data, { enableImplicitConversion: true });
   }
 }
 

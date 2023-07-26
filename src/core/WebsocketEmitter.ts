@@ -45,7 +45,7 @@ export class WebsocketEmitter extends Events.EventEmitter {
 
       client.on("message", (msg) => {
         this.emit(WebsocketEvent.message, wsClient);
-        this.onMessage(wsClient, msg);
+        this.onMessage(wsClient, msg.toString());
       });
 
       client.on("close", () => {
@@ -90,10 +90,10 @@ export class WebsocketEmitter extends Events.EventEmitter {
    * @param {*} target websocket client
    * @param {*} msg {event:"xx", data:{...}}
    */
-  onMessage(target: WsClient, msg: any) {
+  onMessage(target: WsClient, msg: string) {
     try {
       const msgObj: WsMessage = JSON.parse(msg);
-      this.emit(msgObj.event, msgObj.data, target, this);
+      this.emit(msgObj.event, { data: msgObj.data, target });
     } catch (e) {
       console.error(e);
     }
