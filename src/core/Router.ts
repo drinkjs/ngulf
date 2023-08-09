@@ -127,7 +127,7 @@ export default class Router {
   // eslint-disable-next-line no-unused-vars
   private handlerFactory(func: (...args: any[]) => any, paramList: any[]) {
     return async (req: FastifyRequest, res: FastifyReply) => {
-      const ctx: RouterContext = { req, res };
+      const ctx: RouterContext = { req, res, server: this.server };
       // 获取路由函数的参数
       const args = await this.extractParameters(ctx, paramList);
 

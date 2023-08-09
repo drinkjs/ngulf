@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import "reflect-metadata";
 import "colors";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { Ngulf } from "./ngulf";
 import { Mongoer, Ormer, Rediser } from "./common";
 export * from "./config";
@@ -13,6 +13,7 @@ export default Ngulf;
 export interface RouterContext {
   req: FastifyRequest;
   res: FastifyReply;
+  server: FastifyInstance;
 }
 
 export interface HttpResult<T> {
