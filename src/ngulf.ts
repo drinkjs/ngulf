@@ -13,7 +13,7 @@ export class Ngulf {
     | NgulfHtt2Options
     | NgulfHttsOptions;
 
-  private readonly _server: FastifyInstance;
+  private readonly _server!: FastifyInstance;
 
   constructor(options: NgulfHttpOptions | NgulfHtt2Options | NgulfHttsOptions);
   constructor(options: NgulfHttpOptions);
@@ -25,15 +25,15 @@ export class Ngulf {
       this._server = Fastify();
     } else if ((options as NgulfHtt2Options).http2) {
       // http2
-      this._server = Fastify({
-        logger: options?.logger as NgulfHttsOptions["logger"],
-        http2: true,
-        http2SessionTimeout: (options as NgulfHtt2Options).http2SessionTimeout,
-      });
+      // this._server = Fastify({
+      //   // logger: options?.logger as NgulfHttsOptions["logger"],
+      //   http2: true,
+      //   http2SessionTimeout: (options as NgulfHtt2Options).http2SessionTimeout,
+      // });
     } else if ((options as NgulfHttsOptions).https !== undefined) {
       // https
       this._server = Fastify({
-        logger: options?.logger as NgulfHttpOptions["logger"],
+        // logger: options?.logger as NgulfHttpOptions["logger"],
         https: (options as NgulfHttsOptions).https,
       });
     } else {
@@ -66,7 +66,7 @@ export class Ngulf {
         if (file.isFile() && file.name.match(/Controller\.(ts|js)$/)) {
           const fileName = file.name.replace(/\.(ts|js)/, "");
           const controller = await import(
-            `${this.options.controllers}/${fileName}`
+            `file://${this.options.controllers}/${file.name}`
           );
           if (controller) {
             controllers.push(controller.default || controller[fileName]);
@@ -85,8 +85,8 @@ export class Ngulf {
       // 系统hooks
       await hooks(this.server, this.options);
       // 外部hooks
-      if (this.options?.hooks) {
-        await this.options.hooks(this.server, this.options);
+      if (this.options?.hook) {
+        await this.options.hook(this.server, this.options);
       }
       // 注册路由
       Router.create(this.server, this.options).bind(controllers);

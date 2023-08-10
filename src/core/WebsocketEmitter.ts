@@ -1,7 +1,8 @@
 import * as Events from "events";
 import * as Ws from "ws";
+import type WebSocket from "ws";
 import { WSS_METADATA } from "./decorator";
-import { randomUUID } from "crypto";
+import { nanoid } from "nanoid";
 
 export interface WsClient {
   id: string;
@@ -9,7 +10,7 @@ export interface WsClient {
   room: string;
   isAlive: boolean;
   data?: any;
-  socket: Ws;
+  socket: WebSocket;
 }
 
 export interface WsMessageEvent {
@@ -39,9 +40,9 @@ export class WebsocketEmitter extends Events.EventEmitter {
     this.server.on("connection", (client, req) => {
       const wsClient: WsClient = {
         isAlive: true,
-        id: randomUUID(),
+        id: nanoid(),
         ip: req.socket.remoteAddress || "",
-        room: req.headers.origin || randomUUID(),
+        room: req.headers.origin || nanoid(),
         socket: client,
       };
       this.clients.push(wsClient);

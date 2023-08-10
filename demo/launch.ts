@@ -1,11 +1,22 @@
-import * as path from "path";
-import Ngulf from "../src";
+import path from "path";
+import { fileURLToPath } from "url";
+import Ngulf, {
+  NgulfHtt2Options,
+  NgulfHttpOptions,
+  NgulfHttsOptions,
+} from "../src";
 import plugin from "./plugin";
+import hook from "./hook";
 
-export const launch = () => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export async function launch(options?: { port?: number }) {
   const app = Ngulf.create({
     routePrefix: "/api",
     controllers: path.join(__dirname, "controller"),
+    plugin,
+    hook,
     orm: {
       type: "mysql",
       port: 3306,
@@ -16,13 +27,13 @@ export const launch = () => {
       entityPrefix: "ng_",
       entities: [path.join(__dirname, "entity/*{.ts,.js}")],
       bigNumberStrings: false,
-      synchronize: true, // 生产环境必需为false，否则可能会丢失数据
+      synchronize: true, // 生产环境必需为false，否则会丢失数据
     },
     mongo: {
       // see https://mongoosejs.com/
       uris: "mongodb://127.0.0.1:27017",
       options: {
-        dbName: "mojito",
+        dbName: "ngulf_test",
         // useNewUrlParser: true,
         // useUnifiedTopology: true,
         autoIndex: false,
@@ -36,9 +47,8 @@ export const launch = () => {
     //   port: 6379,
     //   keyPrefix: "test:",
     // },
-    plugin,
   });
-  app.listen({ port: 8787 }).then(() => {
-    console.log("Ngulf listen on 8787");
+  await app.listen({ port: options?.port ?? 8787 }).then(() => {
+    console.log(`Ngulf listen on ${options?.port ?? 8787}`);
   });
-};
+}

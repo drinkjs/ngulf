@@ -12,6 +12,7 @@ import {
 import { Constructor } from "../core";
 
 export type NgulfBaseOptions = {
+  port?: number;
   routePrefix?: string;
   websocket?: boolean;
   mongo?: MongoConnectionOptions;
@@ -19,7 +20,7 @@ export type NgulfBaseOptions = {
   redis?: RedisOptions;
   controllers: Constructor<any>[] | string;
   plugin?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
-  hooks?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
+  hook?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
 };
 
 export type NgulfHttpOptions = NgulfBaseOptions & FastifyServerOptions;

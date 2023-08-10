@@ -40,5 +40,3 @@ export class Validation {
     return plainToInstance(type, data, { enableImplicitConversion: true });
   }
 }
-
-exports.Validation = Validation;

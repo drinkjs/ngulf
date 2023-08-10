@@ -5,11 +5,14 @@ import {
   PrimaryGeneratedColumn,
 } from "../../src/typeorm";
 
-@Entity({ name: "test" })
-export default class TestEntity {
+@Entity({ name: "user" })
+export default class UserEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Column()
   name!: string;
+
+  @Column()
+  age?: number;
 }

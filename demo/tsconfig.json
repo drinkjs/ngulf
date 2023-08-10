@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "esnext",
     "declaration": true,
     "removeComments": false,
     "emitDecoratorMetadata": true,
@@ -8,19 +8,18 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2020",
     "inlineSourceMap": true,
-    "outDir": "dist",
+    "outDir": "demo_build",
     "incremental": true,
     "skipLibCheck": true,
     "strict": true,
     "moduleResolution":"Node",
     "esModuleInterop":true,
   },
-  "include": [
-    "src",
-  ],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution":"node"
+  },
   "exclude": [
-    "demo",
-    "test",
     "node_modules"
   ]
 }

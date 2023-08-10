@@ -6,21 +6,16 @@ export default class ProjectService {
   @MgModel(ProjectEntity)
   model!: MgModelType<ProjectEntity>;
 
-  async findAll() {
-    const rel = await this.model
-      .find({ status: 1 })
-      .sort({ createTime: -1 })
-      .exec();
+  async find(name: string) {
+    const rel = await this.model.findOne({ name }).exec();
 
     return rel;
   }
 
-  async add() {
+  async add(name: string, type?: string) {
     const project: ProjectEntity = {
-      name: "dddfd",
-      createTime: new Date(),
-      updateTime: new Date(),
-      status: 1,
+      name,
+      type,
     };
     const { _id: id } = await this.model.create(project);
     return id;

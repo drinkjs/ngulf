@@ -1,22 +1,72 @@
-import fetch from "node-fetch";
-import { describe, beforeAll, expect, test, afterAll } from "@jest/globals";
+import axios from "axios";
+import { describe, expect, test } from "vitest";
+
+const req = axios.create({
+  baseURL: "http://localhost:8787/api",
+  timeout: 1000,
+});
 
 describe("ngulf test", () => {
-  test("post", async () => {
-    const addRes = await fetch("http://localhost:8787/api/index/add", {
-      method: "post",
-      body: JSON.stringify({ name: "ngulf" }),
-      headers: { "Content-Type": "application/json" },
-    });
-    expect(addRes.status).toBe(200);
+  test("get", async () => {
+    const name = "get";
+    const response = await req.get(`/test/get?name=${name}`);
+    expect(response.data).toBe(name);
   });
 
-  test("get", async () => {
-    const getRes = await fetch(
-      "http://localhost:8787/api/index/get?name=ngulf"
+  test("post", async () => {
+    const name = "post";
+    const response = await req.post(`/test/post`, { name });
+    expect(response.data).toEqual({ name });
+  });
+
+  test("put", async () => {
+    const name = "put";
+    const response = await req.put(`/test/put`, { name });
+    expect(response.data).toEqual({ name });
+  });
+
+  test("delete", async () => {
+    const name = "delete";
+    const response = await req.delete(`/test/delete`, { params: { name } });
+    expect(response.data).toEqual({ name });
+  });
+
+  test("headers", async () => {
+    const name = "headers";
+    const response = await req.get(`/test/headers`, {
+      headers: { "x-name": name },
+    });
+    expect(response.data).toEqual(name);
+  });
+
+  test("post and headers", async () => {
+    const firstName = "post";
+    const lastName = "headers";
+    const response = await req.post(
+      `/test/post/headers`,
+      { name: firstName },
+      { headers: { "x-name": lastName } }
     );
-    expect(getRes.status).toBe(200);
-    const data = await getRes.json();
-    expect(data.name).toBe("ngulf");
+    expect(response.data).toEqual({ firstName, lastName });
+  });
+
+  test("validator", async () => {
+    const response = await req.post(`/test/validator`, { name: "" });
+    expect(response.data).toEqual({ code: 500, msg: "name不能为空" });
+  });
+
+  test("orm", async () => {
+    const name = Date.now().toString(36);
+    const response = await req.post(`/test/orm`, { name, age: 23 });
+    expect(response.data.name).toEqual(name);
+    expect(response.data.age).toEqual(23);
+  });
+
+  test("mongo", async () => {
+    const name = Date.now().toString(36);
+    const type = "javascript";
+    const response = await req.post(`/test/mongo`, { name, type });
+    expect(response.data.name).toEqual(name);
+    expect(response.data.type).toEqual(type);
   });
 });

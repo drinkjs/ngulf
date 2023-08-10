@@ -5,14 +5,5 @@ export default class Project {
   name!: string;
 
   @prop()
-  createTime?: Date;
-
-  @prop()
-  updateTime?: Date;
-
-  @prop()
-  createUser?: string;
-
-  @prop({ default: 0, select: false })
-  status?: number; // 0:删除1正常;
+  type?: string;
 }
