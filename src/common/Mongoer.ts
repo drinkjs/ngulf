@@ -10,51 +10,51 @@ export interface MongoConnectionOptions {
 }
 
 export default class Mongoer {
-  static instance: Mongoer;
+	static instance: Mongoer;
 
-  static create() {
-    if (!Mongoer.instance) {
-      Mongoer.instance = new Mongoer();
-    }
-    return Mongoer.instance;
-  }
+	static create() {
+		if (!Mongoer.instance) {
+			Mongoer.instance = new Mongoer();
+		}
+		return Mongoer.instance;
+	}
 
-  static getCurrInstance() {
-    return Mongoer.instance;
-  }
+	static getCurrInstance() {
+		return Mongoer.instance;
+	}
 
-  private connections: Map<string, Connection> = new Map();
+	private connections: Map<string, Connection> = new Map();
 
-  async addConnect(opts: MongoConnectionOptions) {
-    const conn = mongoose.createConnection(opts.uris, opts.options);
-    if (conn) {
-      this.connections.set(opts.uris, conn);
-      console.log(`${opts.uris} connected`.green);
-    } else {
-      throw new Error(`${opts.uris} connect error`.red);
-    }
-    return conn;
-  }
+	async addConnect(opts: MongoConnectionOptions) {
+		const conn = mongoose.createConnection(opts.uris, opts.options);
+		if (conn) {
+			this.connections.set(opts.uris, conn);
+			console.log(`${opts.uris} connected`.green);
+		} else {
+			throw new Error(`${opts.uris} connect error`.red);
+		}
+		return conn;
+	}
 
-  async inject(mongoOpts: MongoConnectionOptions) {
-    // 注入mongoose Model
-    const services: any[] = Reflect.getMetadata(MG_MODEL_METADATA, Mongoer);
-    if (services) {
-      for (const service of services) {
-        const { key, target, model, options } = service;
-        if (target[key]) {
-          return;
-        }
-        const opts: MongoConnectionOptions = options || mongoOpts;
-        const conn = this.connections.has(opts.uris)
-          ? this.connections.get(opts.uris)
-          : await this.addConnect(opts);
-        target[key] = getModelForClass(model, {
-          existingConnection: conn || undefined,
-        });
-      }
-    }
-  }
+	async inject(mongoOpts: MongoConnectionOptions) {
+		// 注入mongoose Model
+		const services: any[] = Reflect.getMetadata(MG_MODEL_METADATA, Mongoer);
+		if (services) {
+			for (const service of services) {
+				const { key, target, model, options } = service;
+				if (target[key]) {
+					return;
+				}
+				const opts: MongoConnectionOptions = options || mongoOpts;
+				const conn = this.connections.has(opts.uris)
+					? this.connections.get(opts.uris)
+					: await this.addConnect(opts);
+				target[key] = getModelForClass(model, {
+					existingConnection: conn || undefined,
+				});
+			}
+		}
+	}
 }
 
 /**

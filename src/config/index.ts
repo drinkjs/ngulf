@@ -4,10 +4,10 @@ import { RedisOptions } from "ioredis";
 import { MongoConnectionOptions } from "../common/Mongoer";
 import { DataSourceOptions } from "typeorm";
 import {
-  FastifyHttp2Options,
-  FastifyHttpsOptions,
-  FastifyInstance,
-  FastifyServerOptions,
+	FastifyHttp2Options,
+	FastifyHttpsOptions,
+	FastifyInstance,
+	FastifyServerOptions,
 } from "fastify";
 import { Constructor } from "../core";
 

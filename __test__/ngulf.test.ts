@@ -15,25 +15,25 @@ describe("ngulf test", () => {
 
   test("post", async () => {
     const name = "post";
-    const response = await req.post(`/test/post`, { name });
+    const response = await req.post("/test/post", { name });
     expect(response.data).toEqual({ name });
   });
 
   test("put", async () => {
     const name = "put";
-    const response = await req.put(`/test/put`, { name });
+    const response = await req.put("/test/put", { name });
     expect(response.data).toEqual({ name });
   });
 
   test("delete", async () => {
     const name = "delete";
-    const response = await req.delete(`/test/delete`, { params: { name } });
+    const response = await req.delete("/test/delete", { params: { name } });
     expect(response.data).toEqual({ name });
   });
 
   test("headers", async () => {
     const name = "headers";
-    const response = await req.get(`/test/headers`, {
+    const response = await req.get("/test/headers", {
       headers: { "x-name": name },
     });
     expect(response.data).toEqual(name);
@@ -43,7 +43,7 @@ describe("ngulf test", () => {
     const firstName = "post";
     const lastName = "headers";
     const response = await req.post(
-      `/test/post/headers`,
+      "/test/post/headers",
       { name: firstName },
       { headers: { "x-name": lastName } }
     );
@@ -51,13 +51,13 @@ describe("ngulf test", () => {
   });
 
   test("validator", async () => {
-    const response = await req.post(`/test/validator`, { name: "" });
+    const response = await req.post("/test/validator", { name: "" });
     expect(response.data).toEqual({ code: 500, msg: "name不能为空" });
   });
 
   test("orm", async () => {
     const name = Date.now().toString(36);
-    const response = await req.post(`/test/orm`, { name, age: 23 });
+    const response = await req.post("/test/orm", { name, age: 23 });
     expect(response.data.name).toEqual(name);
     expect(response.data.age).toEqual(23);
   });
@@ -65,7 +65,7 @@ describe("ngulf test", () => {
   test("mongo", async () => {
     const name = Date.now().toString(36);
     const type = "javascript";
-    const response = await req.post(`/test/mongo`, { name, type });
+    const response = await req.post("/test/mongo", { name, type });
     expect(response.data.name).toEqual(name);
     expect(response.data.type).toEqual(type);
   });

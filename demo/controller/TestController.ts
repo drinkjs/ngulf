@@ -11,6 +11,7 @@ import {
   Validation,
 } from "../../src";
 import UserDto from "../dto/UserDto";
+import { AddZodUser, ZodUser } from "../dto/ZodDto";
 import ProjectService from "../service/ProjectService";
 import UserService from "../service/UserService";
 
@@ -71,5 +72,11 @@ export default class TestController {
     await this.projectService.add(data.name, data.type);
     const project = await this.projectService.find(data.name);
     return project;
+  }
+
+  @Post("/zod")
+  async testZod(@Body(ZodUser) data: AddZodUser) {
+    console.log(data);
+    return data.username;
   }
 }

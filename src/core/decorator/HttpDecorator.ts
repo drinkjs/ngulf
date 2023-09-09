@@ -1,4 +1,5 @@
 /* eslint-disable no-redeclare */
+import { z } from "zod";
 import { Validation } from "../Validation";
 import { createMethodDecorator, createParamDecorator } from "./RouterDecorator";
 
@@ -18,33 +19,39 @@ export const WSS = createMethodDecorator("WSS");
 // ): ParameterDecorator;
 
 export function getPropertyAndVaild(
-  property?: string | Validation,
-  validator?: Validation
+	property?: string | Validation | z.ZodType,
+	validator?: Validation | z.ZodType
 ) {
-  const isProperty = property && typeof property === "string";
-  const key = isProperty ? property : undefined;
-  const valid = isProperty ? validator : property;
-  return { key, valid };
+	const isProperty = property && typeof property === "string";
+	const key = isProperty ? property : undefined;
+	const valid = isProperty ? validator : property;
+	return { key, valid };
 }
 
-export function Query(property?: string | Validation, validator?: Validation) {
-  const { key, valid } = getPropertyAndVaild(property, validator);
-  return createParamDecorator("query")(key, valid);
+export function Query(
+	property?: string | Validation | z.ZodType,
+	validator?: Validation | z.ZodType
+) {
+	const { key, valid } = getPropertyAndVaild(property, validator);
+	return createParamDecorator("query")(key, valid);
 }
 
-export function Body(property?: string | Validation, validator?: Validation) {
-  const { key, valid } = getPropertyAndVaild(property, validator);
-  return createParamDecorator("body")(key, valid);
+export function Body(
+	property?: string | Validation | z.ZodType,
+	validator?: Validation | z.ZodType
+) {
+	const { key, valid } = getPropertyAndVaild(property, validator);
+	return createParamDecorator("body")(key, valid);
 }
 
 export function Headers(
-  property?: string | Validation,
-  validator?: Validation
+	property?: string | Validation | z.ZodType,
+	validator?: Validation | z.ZodType
 ) {
-  const { key, valid } = getPropertyAndVaild(property, validator);
-  return createParamDecorator("headers")(key, valid);
+	const { key, valid } = getPropertyAndVaild(property, validator);
+	return createParamDecorator("headers")(key, valid);
 }
 
 export function UploadedFile() {
-  return createParamDecorator("uploadFile")();
+	return createParamDecorator("uploadFile")();
 }

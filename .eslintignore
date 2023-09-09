@@ -1,3 +1,4 @@
-dist/*
-__test__/*
-demo/*
+# Created by .ignore support plugin (hsz.mobi)
+dist/
+__test__/
+demo/

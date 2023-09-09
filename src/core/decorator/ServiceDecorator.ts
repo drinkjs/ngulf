@@ -13,43 +13,43 @@ export const CACHE_MODEL_METADATA = Symbol.for("cache_manager_metadata");
 export const WSS_METADATA = Symbol.for("wss_metadata");
 
 export function MgModel(
-  model: Constructor,
-  options?: MongoConnectionOptions
+	model: Constructor,
+	options?: MongoConnectionOptions
 ): PropertyDecorator {
-  return (target: any, key: any) => {
-    const preMetadata = Reflect.getMetadata(MG_MODEL_METADATA, Mongoer) || [];
-    const newMetadata = [{ key, target, model, options }, ...preMetadata];
-    Reflect.defineMetadata(MG_MODEL_METADATA, newMetadata, Mongoer);
-  };
+	return (target: any, key: any) => {
+		const preMetadata = Reflect.getMetadata(MG_MODEL_METADATA, Mongoer) || [];
+		const newMetadata = [{ key, target, model, options }, ...preMetadata];
+		Reflect.defineMetadata(MG_MODEL_METADATA, newMetadata, Mongoer);
+	};
 }
 
 export function OrmModel(
-  entity: Constructor,
-  options?: DataSourceOptions
+	entity: Constructor,
+	options?: DataSourceOptions
 ): PropertyDecorator {
-  return (target: any, key: any) => {
-    const preMetadata = Reflect.getMetadata(ORM_MODEL_METADATA, Ormer) || [];
-    const newMetadata = [{ key, target, entity, options }, ...preMetadata];
-    Reflect.defineMetadata(ORM_MODEL_METADATA, newMetadata, Ormer);
-  };
+	return (target: any, key: any) => {
+		const preMetadata = Reflect.getMetadata(ORM_MODEL_METADATA, Ormer) || [];
+		const newMetadata = [{ key, target, entity, options }, ...preMetadata];
+		Reflect.defineMetadata(ORM_MODEL_METADATA, newMetadata, Ormer);
+	};
 }
 
 export function RedisModel(options?: RedisOptions): PropertyDecorator {
-  return (target: any, key: any) => {
-    const preMetadata =
+	return (target: any, key: any) => {
+		const preMetadata =
       Reflect.getMetadata(CACHE_MODEL_METADATA, Rediser) || [];
-    const newMetadata = [{ key, target, options }, ...preMetadata];
-    Reflect.defineMetadata(CACHE_MODEL_METADATA, newMetadata, Rediser);
-  };
+		const newMetadata = [{ key, target, options }, ...preMetadata];
+		Reflect.defineMetadata(CACHE_MODEL_METADATA, newMetadata, Rediser);
+	};
 }
 
 export function WebSocketServer(): PropertyDecorator {
-  return (target: any, key: any) => {
-    const preMetadata =
+	return (target: any, key: any) => {
+		const preMetadata =
       Reflect.getMetadata(WSS_METADATA, WebsocketEmitter) || [];
-    const newMetadata = [{ key, target }, ...preMetadata];
-    Reflect.defineMetadata(WSS_METADATA, newMetadata, WebsocketEmitter);
-  };
+		const newMetadata = [{ key, target }, ...preMetadata];
+		Reflect.defineMetadata(WSS_METADATA, newMetadata, WebsocketEmitter);
+	};
 }
 
 export type MgModelType<T> = ReturnModelType<Constructor<T>>;

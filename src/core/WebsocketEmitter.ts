@@ -24,122 +24,122 @@ export interface WsMessage<T = any> {
 }
 
 export const WebsocketEvent = {
-  connection: Symbol("connection"),
-  disconnect: Symbol("disconnect"),
-  message: Symbol("message"),
+	connection: Symbol("connection"),
+	disconnect: Symbol("disconnect"),
+	message: Symbol("message"),
 };
 
 export class WebsocketEmitter extends Events.EventEmitter {
-  private server: Ws.Server | undefined;
+	private server: Ws.Server | undefined;
 
-  private clients: WsClient[] = [];
+	private clients: WsClient[] = [];
 
-  listen(options: Ws.ServerOptions) {
-    this.server = new Ws.Server(options);
-    this.checkAlive();
-    this.server.on("connection", (client, req) => {
-      const wsClient: WsClient = {
-        isAlive: true,
-        id: nanoid(),
-        ip: req.socket.remoteAddress || "",
-        room: req.headers.origin || nanoid(),
-        socket: client,
-      };
-      this.clients.push(wsClient);
+	listen(options: Ws.ServerOptions) {
+		this.server = new Ws.Server(options);
+		this.checkAlive();
+		this.server.on("connection", (client, req) => {
+			const wsClient: WsClient = {
+				isAlive: true,
+				id: nanoid(),
+				ip: req.socket.remoteAddress || "",
+				room: req.headers.origin || nanoid(),
+				socket: client,
+			};
+			this.clients.push(wsClient);
 
-      this.emit(WebsocketEvent.connection, wsClient);
+			this.emit(WebsocketEvent.connection, wsClient);
 
-      client.on("message", (msg) => {
-        this.emit(WebsocketEvent.message, wsClient);
-        this.onMessage(wsClient, msg.toString());
-      });
+			client.on("message", (msg) => {
+				this.emit(WebsocketEvent.message, wsClient);
+				this.onMessage(wsClient, msg.toString());
+			});
 
-      client.on("close", () => {
-        this.onClose(wsClient);
-      });
+			client.on("close", () => {
+				this.onClose(wsClient);
+			});
 
-      client.on("pong", () => {
-        this.heartbeat(wsClient);
-      });
+			client.on("pong", () => {
+				this.heartbeat(wsClient);
+			});
 
-      client.on("error", (err) => {
-        this.onError(wsClient, err);
-      });
-    });
+			client.on("error", (err) => {
+				this.onError(wsClient, err);
+			});
+		});
 
-    const services: any[] = Reflect.getMetadata(WSS_METADATA, WebsocketEmitter);
-    if (services) {
-      services.forEach(({ key, target }) => {
-        if (target[key]) {
-          return;
-        }
-        target[key] = this;
-      });
-    }
-  }
+		const services: any[] = Reflect.getMetadata(WSS_METADATA, WebsocketEmitter);
+		if (services) {
+			services.forEach(({ key, target }) => {
+				if (target[key]) {
+					return;
+				}
+				target[key] = this;
+			});
+		}
+	}
 
-  getClientsByRoom(room: string): WsClient[] {
-    return this.clients.filter(
-      (client) =>
-        client.room === room &&
+	getClientsByRoom(room: string): WsClient[] {
+		return this.clients.filter(
+			(client) =>
+				client.room === room &&
         client.socket.readyState === Ws.OPEN &&
         client.isAlive
-    );
-  }
+		);
+	}
 
-  getClientById(id: string) {
-    return this.clients.find((v) => v.id === id);
-  }
+	getClientById(id: string) {
+		return this.clients.find((v) => v.id === id);
+	}
 
-  /**
+	/**
    * 消息处理
    * @param {*} target websocket client
    * @param {*} msg {event:"xx", data:{...}}
    */
-  onMessage(target: WsClient, msg: string) {
-    try {
-      const msgObj: WsMessageEvent = JSON.parse(msg);
-      this.emit(msgObj.event, { data: msgObj.data, target });
-    } catch (e) {
-      console.error(e);
-    }
-  }
+	onMessage(target: WsClient, msg: string) {
+		try {
+			const msgObj: WsMessageEvent = JSON.parse(msg);
+			this.emit(msgObj.event, { data: msgObj.data, target });
+		} catch (e) {
+			console.error(e);
+		}
+	}
 
-  onClose(target: WsClient) {
-    target.isAlive = false;
-    this.removeClient(target);
-    this.emit(WebsocketEvent.disconnect, target);
-  }
+	onClose(target: WsClient) {
+		target.isAlive = false;
+		this.removeClient(target);
+		this.emit(WebsocketEvent.disconnect, target);
+	}
 
-  onError(target: WsClient, error: Error) {
-    this.removeClient(target);
-    this.emit(WebsocketEvent.disconnect, target);
-    console.error(error);
-  }
+	onError(target: WsClient, error: Error) {
+		this.removeClient(target);
+		this.emit(WebsocketEvent.disconnect, target);
+		console.error(error);
+	}
 
-  heartbeat(target: WsClient) {
-    target.isAlive = true;
-  }
+	heartbeat(target: WsClient) {
+		target.isAlive = true;
+	}
 
-  removeClient(client: WsClient) {
-    if (client) {
-      this.clients = this.clients.filter((v) => v && v.id !== client.id);
-    }
-  }
+	removeClient(client: WsClient) {
+		if (client) {
+			this.clients = this.clients.filter((v) => v && v.id !== client.id);
+		}
+	}
 
-  // 心跳检测
-  checkAlive() {
-    setInterval(() => {
-      const { clients } = this;
-      clients.forEach((client) => {
-        if (client.isAlive === false) {
-          client.socket.terminate();
-          this.onClose(client);
-          return;
-        }
-        client.isAlive = false;
-        client.socket.ping();
-      });
-    }, 5000);
-  }
+	// 心跳检测
+	checkAlive() {
+		setInterval(() => {
+			const { clients } = this;
+			clients.forEach((client) => {
+				if (client.isAlive === false) {
+					client.socket.terminate();
+					this.onClose(client);
+					return;
+				}
+				client.isAlive = false;
+				client.socket.ping();
+			});
+		}, 5000);
+	}
 }

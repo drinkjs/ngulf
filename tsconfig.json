@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "es2020",
     "declaration": true,
     "removeComments": false,
     "emitDecoratorMetadata": true,
