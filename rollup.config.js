@@ -33,6 +33,16 @@ export default [
 		],
 	},
 	{
+		input: "./bin.mjs",
+		output: [
+			{
+				format: "es",
+				file: "dist/bin/index.mjs",
+				banner:"#!/usr/bin/env node",
+			},
+		],
+	},
+	{
 		input: "./src/class-validator.ts",
 		output: [
 			{
