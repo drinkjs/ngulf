@@ -1,10 +1,7 @@
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema-es";
 import { Validation } from "../Validation";
-
-export const CONTROLLER_METADATA = Symbol.for("controller_metadata");
-export const ROUTE_METADATA = Symbol.for("method_metadata");
-export const PARAM_METADATA = Symbol.for("param_metadata");
+import { CONTROLLER_METADATA, PARAM_METADATA, ROUTE_METADATA } from "./metaKeys";
 
 export interface ParamType {
   key?: string;
@@ -63,7 +60,7 @@ export function createParamDecorator(type: Param) {
 			"design:paramtypes",
 			target,
 			propertyKey
-		);
+		) || [];
 		// 这里要注意这里 defineMetadata 挂在 target.name 上
 		// 但该函数的参数有顺序之分，下一个装饰器定义参数后覆盖之前的，所以要用 preMetadata 保存起来
 		const preMetadata =

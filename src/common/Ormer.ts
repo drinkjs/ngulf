@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { DataSourceOptions, DataSource } from "typeorm";
-import { ORM_MODEL_METADATA } from "../core/decorator/ServiceDecorator";
+import { ORMMetaObj, ORM_MODEL_METADATA } from "../core/decorator/metaKeys";
 
 export default class Ormer {
 	static instance: Ormer;
@@ -36,7 +36,7 @@ export default class Ormer {
 
 	async inject(ormOpts: DataSourceOptions) {
 		// 注入orm repository
-		const services: any[] = Reflect.getMetadata(ORM_MODEL_METADATA, Ormer);
+		const services: any[] = Reflect.getMetadata(ORM_MODEL_METADATA, ORMMetaObj);
 		if (services) {
 			for (const service of services) {
 				const { key, target, entity, options } = service;

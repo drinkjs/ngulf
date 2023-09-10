@@ -1,13 +1,12 @@
 {
   "name": "ngulf",
-  "version": "0.5.8",
+  "version": "0.6.5",
   "description": "Based on the Fastify webframework. Integrate typeorm, ioredis, and class-validator",
   "engines": {
     "node": ">=16.0.0"
   },
-  "main": "index.cjs",
-  "module": "index.mjs",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "release": "npm run build && cd dist && npm publish",
@@ -40,7 +39,7 @@
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.9.1",
     "typeorm": "^0.3.11",
-    "ws": "^7.4.2",
+    "ws": "^8.14.1",
     "zod": "^3.22.2",
     "zod-to-json-schema-es": "^1.0.2"
   },
@@ -49,7 +48,7 @@
     "@types/busboy": "^0.2.3",
     "@types/ioredis": "^4.26.4",
     "@types/node": "^16.16.0",
-    "@types/ws": "^7.4.0",
+    "@types/ws": "^8.5.5",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "@vitest/coverage-istanbul": "^0.34.1",

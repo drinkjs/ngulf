@@ -1,4 +1,4 @@
-import { CACHE_MODEL_METADATA } from "../core/decorator";
+import { CACHE_MODEL_METADATA } from "../core/decorator/metaKeys";
 import IORedis, { RedisOptions } from "ioredis";
 
 // sudo service redis-server restart

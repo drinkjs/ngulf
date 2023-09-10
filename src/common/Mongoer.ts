@@ -1,8 +1,6 @@
-/* eslint-disable no-use-before-define */
 import { getModelForClass } from "@typegoose/typegoose";
-// import { registerDecorator, ValidationOptions } from "class-validator";
 import mongoose, { Connection } from "mongoose";
-import { MG_MODEL_METADATA } from "../core/decorator/ServiceDecorator";
+import { MG_MODEL_METADATA, MongoMetaObj } from "../core/decorator/metaKeys";
 
 export interface MongoConnectionOptions {
   uris: string;
@@ -38,7 +36,7 @@ export default class Mongoer {
 
 	async inject(mongoOpts: MongoConnectionOptions) {
 		// 注入mongoose Model
-		const services: any[] = Reflect.getMetadata(MG_MODEL_METADATA, Mongoer);
+		const services: any[] = Reflect.getMetadata(MG_MODEL_METADATA, MongoMetaObj);
 		if (services) {
 			for (const service of services) {
 				const { key, target, model, options } = service;

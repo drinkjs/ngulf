@@ -1,18 +1,18 @@
 import {
-  Entity,
-  Column,
-  Index,
-  PrimaryGeneratedColumn,
+	Entity,
+	Column,
+	Index,
+	PrimaryGeneratedColumn,
 } from "../../src/typeorm";
 
 @Entity({ name: "user" })
 export default class UserEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+	@PrimaryGeneratedColumn("uuid")
+	id!: string;
 
-  @Column()
-  name!: string;
+	@Column({ type: "varchar" })
+	name!: string;
 
-  @Column()
-  age?: number;
+	@Column({ type: "int" })
+	age?: number;
 }

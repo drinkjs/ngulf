@@ -1,21 +1,21 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { ValidationError } from "../common/AppError";
 import {
-	Constructor,
-	getInject,
-	INJECT_METADATA,
-	IocFactory,
-} from "./decorator/IocDecorator";
-import {
 	CONTROLLER_METADATA,
 	PARAM_METADATA,
 	ROUTE_METADATA,
+	INJECT_METADATA,
 	ParamType,
-} from "./decorator/RouterDecorator";
+	Constructor,
+	getInject,
+	IocFactory,
+	RouterMetaObj
+} from "./decorator";
 import { WebsocketEmitter } from "./WebsocketEmitter";
 import { NgulfBaseOptions } from "../config";
-import { RouterContext, Validation } from "../";
+import { RouterContext } from "../types";
 import { z } from "zod";
+import { Validation } from "./Validation";
 
 type initCallback = () => void;
 
@@ -119,7 +119,7 @@ export default class Router {
 		}
 
 		// 解释@Inject
-		const injects = Reflect.getMetadata(INJECT_METADATA, Router);
+		const injects = Reflect.getMetadata(INJECT_METADATA, RouterMetaObj);
 		injects?.forEach(({ key, target, type }: any) => {
 			if (/^class[\s{]/.test(type.toString())) {
 				target[key] = getInject(type);

@@ -1,9 +1,6 @@
-import Router from "../Router";
+import { INJECT_METADATA, RouterMetaObj } from "./metaKeys";
 
 const injectables: WeakMap<any, any> = new WeakMap();
-
-export const INJECTABLE_METADATA = Symbol.for("injectable_metadata");
-export const INJECT_METADATA = Symbol.for("inject_metadata");
 
 // eslint-disable-next-line no-unused-vars
 export type Constructor<T = any> = new (...args: any[]) => T;
@@ -33,9 +30,9 @@ export function Inject(
 	type: Constructor | (() => Constructor)
 ): PropertyDecorator {
 	return (target: any, key: any) => {
-		const preMetadata = Reflect.getMetadata(INJECT_METADATA, Router) || [];
+		const preMetadata = Reflect.getMetadata(INJECT_METADATA, RouterMetaObj) || [];
 		const newMetadata = [{ key, target, type }, ...preMetadata];
-		Reflect.defineMetadata(INJECT_METADATA, newMetadata, Router);
+		Reflect.defineMetadata(INJECT_METADATA, newMetadata, RouterMetaObj);
 	};
 }
 

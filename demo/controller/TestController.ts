@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   Query,
-  RouterContext,
   Validation,
 } from "../../src";
 import UserDto from "../dto/UserDto";
@@ -62,6 +61,7 @@ export default class TestController {
 
   @Post("/orm")
   async testORM(@Body(new Validation({ groups: ["add"] })) dto: UserDto) {
+    console.log("==============", dto);
     await this.service.add(dto.name, dto.age);
     const user = await this.service.query(dto.name);
     return user;

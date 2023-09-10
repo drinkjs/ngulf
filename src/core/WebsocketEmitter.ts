@@ -1,26 +1,25 @@
 import * as Events from "events";
-import * as Ws from "ws";
-import type WebSocket from "ws";
+import WebSocket, { ServerOptions, WebSocketServer } from "ws";
 import { WSS_METADATA } from "./decorator";
 import { nanoid } from "nanoid";
 
 export interface WsClient {
-  id: string;
-  ip: string;
-  room: string;
-  isAlive: boolean;
-  data?: any;
-  socket: WebSocket;
+	id: string;
+	ip: string;
+	room: string;
+	isAlive: boolean;
+	data?: any;
+	socket: WebSocket;
 }
 
 export interface WsMessageEvent {
-  event: string;
-  data: { [key: string]: any };
+	event: string;
+	data: { [key: string]: any };
 }
 
 export interface WsMessage<T = any> {
-  data: T;
-  target: WsClient;
+	data: T;
+	target: WsClient;
 }
 
 export const WebsocketEvent = {
@@ -30,12 +29,12 @@ export const WebsocketEvent = {
 };
 
 export class WebsocketEmitter extends Events.EventEmitter {
-	private server: Ws.Server | undefined;
+	private server: WebSocketServer | undefined;
 
 	private clients: WsClient[] = [];
 
-	listen(options: Ws.ServerOptions) {
-		this.server = new Ws.Server(options);
+	listen(options: ServerOptions) {
+		this.server = new WebSocketServer(options);
 		this.checkAlive();
 		this.server.on("connection", (client, req) => {
 			const wsClient: WsClient = {
@@ -82,8 +81,8 @@ export class WebsocketEmitter extends Events.EventEmitter {
 		return this.clients.filter(
 			(client) =>
 				client.room === room &&
-        client.socket.readyState === Ws.OPEN &&
-        client.isAlive
+				client.socket.readyState === WebSocket.OPEN &&
+				client.isAlive
 		);
 	}
 
@@ -92,10 +91,10 @@ export class WebsocketEmitter extends Events.EventEmitter {
 	}
 
 	/**
-   * 消息处理
-   * @param {*} target websocket client
-   * @param {*} msg {event:"xx", data:{...}}
-   */
+	 * 消息处理
+	 * @param {*} target websocket client
+	 * @param {*} msg {event:"xx", data:{...}}
+	 */
 	onMessage(target: WsClient, msg: string) {
 		try {
 			const msgObj: WsMessageEvent = JSON.parse(msg);

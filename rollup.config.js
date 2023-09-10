@@ -15,13 +15,8 @@ export default [
 		input: "./src/index.ts",
 		output: [
 			{
-				format: "cjs",
-				file: "dist/index.cjs",
-				banner,
-			},
-			{
 				format: "es",
-				file: "dist/index.mjs",
+				file: "dist/index.js",
 				banner,
 			},
 		],
@@ -35,6 +30,86 @@ export default [
 					{ src: "./LICENSE", dest: "dist/" },
 				]
 			})
+		],
+	},
+	{
+		input: "./src/class-validator.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/class-validator.js",
+				banner,
+			},
+		],
+	},
+	{
+		input: "./src/fastify.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/fastify.js",
+				banner,
+			},
+		],
+	},
+	{
+		input: "./src/ioredis.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/ioredis.js",
+				banner,
+			},
+		],
+	},
+	{
+		input: "./src/mongoose.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/mongoose.js",
+				banner,
+			},
+		],
+	},
+	{
+		input: "./src/typegoose.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/typegoose.js",
+				banner,
+			},
+		],
+	},
+	{
+		input: "./src/typeorm.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/typeorm.js",
+				banner,
+			},
+		],
+	},
+	{
+		input: "./src/websocket.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/websocket.js",
+				banner,
+			},
+		],
+	},
+	{
+		input: "./src/zod.ts",
+		output: [
+			{
+				format: "es",
+				file: "dist/zod.js",
+				banner,
+			},
 		],
 	},
 	// {

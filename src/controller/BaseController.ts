@@ -1,4 +1,4 @@
-import { HttpResult } from "../";
+import { HttpResult } from "../types";
 
 type ListData<T> = {
   list: T;
