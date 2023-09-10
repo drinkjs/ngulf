@@ -1,6 +1,6 @@
 {
   "name": "ngulf",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "Based on the Fastify webframework. Integrate typeorm, ioredis, and class-validator",
   "engines": {
     "node": ">=16.0.0"
