@@ -64,8 +64,32 @@ export default class DemoController {
 }
 ```
 
+## Zod
+```js
+import { z } from "zod";
+
+export const ZodUser = z.object({
+  username: z.string(),
+  password: z
+    .string({ required_error: "password is Required" })
+    .nonempty("password is empty"),
+  email: z.string().email().nullish(),
+});
+
+export type AddZodUser = z.infer<typeof ZodUser>;
+
+```
+Controller
+```js
+@Post("/api")
+  async testZod(@Body(ZodUser) data: AddZodUser) {
+    console.log(data);
+    return data;
+  }
+```
+
 ## Validator
-Create validator
+
 ``` js
 // src/dto/UserDto.ts
 import { IsNotEmpty } from "ngulf/class-validator";
@@ -81,7 +105,7 @@ export default class UserDto {
 }
 
 ```
-Validation parameter
+Controller
 ``` js
 // src/controller/DemoController.ts
 import {Controller} from "ngulf";

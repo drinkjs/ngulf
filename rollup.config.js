@@ -2,7 +2,7 @@ import pkg from "./package.json";
 import typescript from "@rollup/plugin-typescript";
 import del from "rollup-plugin-delete";
 import copy from "rollup-plugin-copy";
-import dts from "rollup-plugin-dts";
+// import dts from "rollup-plugin-dts";
 
 const banner = `/*!
   * ${pkg.name} ${pkg.version}
@@ -16,7 +16,7 @@ export default [
 		output: [
 			{
 				format: "cjs",
-				file: "dist/index.js",
+				file: "dist/index.cjs",
 				banner,
 			},
 			{
@@ -25,21 +25,27 @@ export default [
 				banner,
 			},
 		],
-		plugins: [del({ targets: "dist/*" }), typescript(), copy({
-			targets: [
-				{ src: "src/types.d.ts", dest: "dist/" },
-			]
-		})],
-	},
-	{
-		input: "./src/index.ts",
-		output: { format: "es", file: "dist/index.d.ts" },
 		plugins: [
-			dts.default(),
-			{
-				name: "types",
-				banner: "/// <reference types=\"./types\" />",
-			},
+			del({ targets: "dist/*" }), 
+			typescript(),
+			copy({
+				targets: [
+					{ src: "./package.json", dest: "dist/" },
+					{ src: "./README.md", dest: "dist/" },
+					{ src: "./LICENSE", dest: "dist/" },
+				]
+			})
 		],
 	},
+	// {
+	// 	input: "./src/index.ts",
+	// 	output: { format: "es", file: "dist/index.d.ts" },
+	// 	plugins: [
+	// 		dts.default(),
+	// 		{
+	// 			name: "types",
+	// 			banner: "/// <reference types=\"./fastify\" />",
+	// 		},
+	// 	],
+	// },
 ];

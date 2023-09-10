@@ -8,8 +8,4 @@ export const ZodUser = z.object({
   email: z.string().email().nullish(),
 });
 
-export const UpdateZodUser = ZodUser.extend({
-  id: z.string().uuid(),
-});
-
 export type AddZodUser = z.infer<typeof ZodUser>;

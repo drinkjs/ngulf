@@ -8,21 +8,22 @@ export * from "./controller/BaseController";
 export * from "./core";
 export * from "./common";
 
+
 export default Ngulf;
 export interface RouterContext {
-  req: FastifyRequest;
-  res: FastifyReply;
-  server: FastifyInstance;
+	req: FastifyRequest;
+	res: FastifyReply;
+	server: FastifyInstance;
 }
 
 export interface HttpResult<T> {
-  code: number;
-  msg?: string;
-  data?: T;
+	code: number;
+	msg?: string;
+	data?: T;
 }
 
 export type PromiseRes<T> = Promise<HttpResult<T>>;
 
 export interface ExceptionFilter {
-  catch: (error: Error, ctx: RouterContext) => any;
+	catch: (error: Error, ctx: RouterContext) => any;
 }

@@ -1,22 +1,17 @@
 {
   "name": "ngulf",
-  "version": "0.5.6",
+  "version": "0.5.8",
   "description": "Based on the Fastify webframework. Integrate typeorm, ioredis, and class-validator",
   "engines": {
     "node": ">=16.0.0"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "index.cjs",
+  "module": "index.mjs",
   "type": "module",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "release": "npm run build && npm publish",
-    "check": "npm pack --dry-run",
+    "release": "npm run build && cd dist && npm publish",
+    "check": "cd dist && npm pack --dry-run",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "demo": "nodemon"
