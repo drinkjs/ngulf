@@ -7,6 +7,7 @@ import Router from "./core/Router";
 import { Mongoer, Ormer, Rediser } from "./common";
 import { Constructor } from "./core";
 
+
 export class Ngulf {
 	private readonly options:
     | NgulfHttpOptions
@@ -118,7 +119,7 @@ export class Ngulf {
 		} catch (err) {
 			setTimeout(() => {
 				process.exit(1);
-			}, 2000);
+			}, 500);
 			throw err;
 		}
 	}

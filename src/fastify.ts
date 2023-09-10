@@ -1,4 +1,3 @@
-import fastify from "fastify";
+import * as fastify from "fastify";
 
-export * from "fastify";
 export default fastify;

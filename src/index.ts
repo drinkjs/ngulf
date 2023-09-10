@@ -3,7 +3,6 @@ import "reflect-metadata";
 import "colors";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { Ngulf } from "./ngulf";
-import { Mongoer, Ormer, Rediser } from "./common";
 export * from "./config";
 export * from "./controller/BaseController";
 export * from "./core";

@@ -9,7 +9,6 @@
     "target": "es2020",
     "inlineSourceMap": true,
     "outDir": "dist",
-    "incremental": true,
     "skipLibCheck": true,
     "strict": true,
     "moduleResolution":"Node",
