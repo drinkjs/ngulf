@@ -1,4 +1,4 @@
-import { prop } from "@typegoose/typegoose";
+import { prop } from "../../extend/mongo/src";
 
 export default class Project {
   @prop({ required: true })

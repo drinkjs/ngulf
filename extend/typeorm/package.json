@@ -1,0 +1,35 @@
+{
+  "name": "@ngulf/typeorm",
+  "version": "1.0.1",
+  "description": "typeorm of ngulf",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"tsc --project tsconfig.json",
+    "check": "npm pack --dry-run",
+    "release": "npm run build && npm publish"
+  },
+  "files": ["dist/**/**","!**/*.tsbuildinfo"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "typeorm": "^0.3.17"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}

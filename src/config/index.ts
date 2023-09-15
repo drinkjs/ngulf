@@ -1,8 +1,5 @@
 import * as http2 from "http2";
 import * as https from "https";
-import { RedisOptions } from "ioredis";
-import { MongoConnectionOptions } from "../common/Mongoer";
-import { DataSourceOptions } from "typeorm";
 import {
 	FastifyHttp2Options,
 	FastifyHttpsOptions,
@@ -15,12 +12,10 @@ export type NgulfBaseOptions = {
   port?: number;
   routePrefix?: string;
   websocket?: boolean;
-  mongo?: MongoConnectionOptions;
-  orm?: DataSourceOptions;
-  redis?: RedisOptions;
   controllers: Constructor<any>[] | string;
   plugin?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
   hook?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
+  inject?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
 };
 
 export type NgulfHttpOptions = NgulfBaseOptions & FastifyServerOptions;

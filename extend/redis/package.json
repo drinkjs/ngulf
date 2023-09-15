@@ -1,0 +1,24 @@
+{
+  "name": "@ngulf/redis",
+  "version": "1.0.2",
+  "description": "ioredis of ngulf",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --project tsconfig.json",
+    "release": "npm run build && npm publish"
+  },
+  "files": ["dist/**/**","!**/*.tsbuildinfo"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ioredis": "^5.3.2",
+    "reflect-metadata": "^0.1.13"
+  }
+}

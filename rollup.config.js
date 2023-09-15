@@ -62,46 +62,46 @@ export default [
 			},
 		],
 	},
-	{
-		input: "./src/ioredis.ts",
-		output: [
-			{
-				format: "es",
-				file: "dist/ioredis.js",
-				banner,
-			},
-		],
-	},
-	{
-		input: "./src/mongoose.ts",
-		output: [
-			{
-				format: "es",
-				file: "dist/mongoose.js",
-				banner,
-			},
-		],
-	},
-	{
-		input: "./src/typegoose.ts",
-		output: [
-			{
-				format: "es",
-				file: "dist/typegoose.js",
-				banner,
-			},
-		],
-	},
-	{
-		input: "./src/typeorm.ts",
-		output: [
-			{
-				format: "es",
-				file: "dist/typeorm.js",
-				banner,
-			},
-		],
-	},
+	// {
+	// 	input: "./src/ioredis.ts",
+	// 	output: [
+	// 		{
+	// 			format: "es",
+	// 			file: "dist/ioredis.js",
+	// 			banner,
+	// 		},
+	// 	],
+	// },
+	// {
+	// 	input: "./src/mongoose.ts",
+	// 	output: [
+	// 		{
+	// 			format: "es",
+	// 			file: "dist/mongoose.js",
+	// 			banner,
+	// 		},
+	// 	],
+	// },
+	// {
+	// 	input: "./src/typegoose.ts",
+	// 	output: [
+	// 		{
+	// 			format: "es",
+	// 			file: "dist/typegoose.js",
+	// 			banner,
+	// 		},
+	// 	],
+	// },
+	// {
+	// 	input: "./src/typeorm.ts",
+	// 	output: [
+	// 		{
+	// 			format: "es",
+	// 			file: "dist/typeorm.js",
+	// 			banner,
+	// 		},
+	// 	],
+	// },
 	{
 		input: "./src/websocket.ts",
 		output: [

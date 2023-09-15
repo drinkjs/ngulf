@@ -1,0 +1,24 @@
+{
+  "name": "@ngulf/mongo",
+  "version": "1.0.3",
+  "description": "mongo of ngulf",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"tsc --project tsconfig.json",
+    "release": "npm run build && npm publish"
+  },
+  "files": ["dist/**/**","!**/*.tsbuildinfo"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@typegoose/typegoose": "^11.5.0",
+    "mongoose": "^7.5.1"
+  }
+}

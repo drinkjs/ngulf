@@ -4,7 +4,6 @@ import { NgulfHttpOptions, NgulfHtt2Options, NgulfHttsOptions } from "./config";
 import plugin from "./plugin";
 import hooks from "./hooks";
 import Router from "./core/Router";
-import { Mongoer, Ormer, Rediser } from "./common";
 import { Constructor } from "./core";
 
 
@@ -89,30 +88,24 @@ export class Ngulf {
 			// 系统插件
 			await plugin(this.server, this.options);
 			// 外部插件
-			if (this.options?.plugin) {
+			if (this.options.plugin) {
 				await this.options.plugin(this.server);
 			}
 			// 系统hooks
 			await hooks(this.server, this.options);
 			// 外部hooks
-			if (this.options?.hook) {
+			if (this.options.hook) {
 				await this.options.hook(this.server, this.options);
 			}
 			// 注册路由
 			const router = Router.create(this.server, this.options);
 			router.bind(controllers);
-			if (this.options?.orm) {
-				// 注入typeorm
-				await Ormer.create().inject(this.options?.orm);
+
+			// 外部状饰器
+			if(this.options.inject){
+				await this.options.inject(this.server, this.options);
 			}
-			if (this.options?.redis) {
-				// 注入ioredis
-				await Rediser.create().inject(this.options?.redis);
-			}
-			if (this.options?.mongo) {
-				// 注入mongo
-				await Mongoer.create().inject(this.options?.mongo);
-			}
+
 			await this.server.listen(params);
 			router.callInitFuns();
 			return true;

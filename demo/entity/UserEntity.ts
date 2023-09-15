@@ -3,7 +3,7 @@ import {
 	Column,
 	Index,
 	PrimaryGeneratedColumn,
-} from "../../src/typeorm";
+} from "../../extend/typeorm/src";;
 
 @Entity({ name: "user" })
 export default class UserEntity {

@@ -61,7 +61,6 @@ export default class TestController {
 
   @Post("/orm")
   async testORM(@Body(new Validation({ groups: ["add"] })) dto: UserDto) {
-    console.log("==============", dto);
     await this.service.add(dto.name, dto.age);
     const user = await this.service.query(dto.name);
     return user;
@@ -76,7 +75,11 @@ export default class TestController {
 
   @Post("/zod")
   async testZod(@Body(ZodUser) data: AddZodUser) {
-    console.log(data);
     return data.username;
+  }
+
+  @Get("/redis")
+  async testRedis(@Query("name") name: string) {
+    return await this.projectService.findCache(name)
   }
 }

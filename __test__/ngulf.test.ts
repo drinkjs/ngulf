@@ -69,4 +69,14 @@ describe("ngulf test", () => {
     expect(response.data.name).toEqual(name);
     expect(response.data.type).toEqual(type);
   });
+
+  test("redis", async () => {
+    const name = Date.now().toString(36);
+    const type = "javascript";
+    await req.post("/test/mongo", { name, type });
+    const response = await req.get(`/test/redis?name=${name}`)
+    expect(response.data.name).toEqual(name);
+    expect(response.data.type).toEqual(type);
+  });
+
 });

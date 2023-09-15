@@ -1,10 +1,11 @@
-import { Injectable, OrmModel, OrmModelType } from "../../src";
+import { TypeORM, TypeORMModel } from "../../extend/typeorm/src";
+import { Injectable } from "../../src";
 import UserEntity from "../entity/UserEntity";
 
 @Injectable()
 export default class UserService {
-  @OrmModel(UserEntity)
-  private model!: OrmModelType<UserEntity>;
+  @TypeORM(UserEntity)
+  private model!: TypeORMModel<UserEntity>;
 
   async query(name: string) {
     return await this.model.findOneBy({ name });
