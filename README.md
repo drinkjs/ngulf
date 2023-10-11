@@ -1,6 +1,12 @@
 # ngulf
 Based on the Fastify webframework. Integrate typeorm, ioredis, and class-validator
 
+## Quick Start
+
+```js
+npx ngulf init
+```
+
 ## Controller
 
 ``` js
