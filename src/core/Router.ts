@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { ValidationError } from "../common/AppError";
+import { ValidationError, ZodError } from "../common/AppError";
 import {
 	CONTROLLER_METADATA,
 	PARAM_METADATA,
@@ -195,8 +195,7 @@ export default class Router {
 					if (parse.success) {
 						checkArgs[index] = parse.data;
 					} else {
-						const errMsg = parse.error.errors.map((v) => v.message);
-						ValidationError.assert(errMsg.join("\n"));
+						ZodError.assert(parse.error);
 					}
 				}
 			} else {
