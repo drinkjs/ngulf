@@ -8,6 +8,7 @@ export const Post = createMethodDecorator("POST");
 export const Put = createMethodDecorator("PUT");
 export const Delete = createMethodDecorator("DELETE");
 export const Patch = createMethodDecorator("PATCH");
+export const Options = createMethodDecorator("OPTIONS");
 export const WSS = createMethodDecorator("WSS");
 
 // export function Query(): ParameterDecorator;
