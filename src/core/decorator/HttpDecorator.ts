@@ -45,6 +45,14 @@ export function Body(
 	return createParamDecorator("body")(key, valid);
 }
 
+export function Params(
+	property?: string | Validation | z.ZodType,
+	validator?: Validation | z.ZodType
+) {
+	const { key, valid } = getPropertyAndVaild(property, validator);
+	return createParamDecorator("params")(key, valid);
+}
+
 export function Headers(
 	property?: string | Validation | z.ZodType,
 	validator?: Validation | z.ZodType

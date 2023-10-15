@@ -1,6 +1,6 @@
 {
   "name": "ngulf",
-  "version": "0.7.5",
+  "version": "0.7.7",
   "description": "Based on the Fastify webframework. Integrate typeorm, ioredis, and zod",
   "engines": {
     "node": ">=16.0.0"

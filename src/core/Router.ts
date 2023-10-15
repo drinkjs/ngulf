@@ -176,6 +176,10 @@ export default class Router {
 				obj = req.headers as any;
 				args[index] = key && obj ? obj[key] : obj;
 				break;
+			case "params":
+				obj = req.params as any;
+				args[index] = key && obj ? obj[key] : obj;
+				break;
 			case "uploadFile":
 				obj = req as any;
 				// eslint-disable-next-line no-await-in-loop
@@ -200,7 +204,7 @@ export default class Router {
 				}
 			} else {
 				if (key && (args[index] === undefined || args[index] === "")) {
-					ValidationError.assert(`${key} is empty`);
+					ValidationError.assert(`${key} Required`);
 				}
 				checkArgs[index] = args[index];
 			}
