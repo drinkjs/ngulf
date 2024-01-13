@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 export interface RouterContext {
-	req: FastifyRequest;
-	res: FastifyReply;
+	request: FastifyRequest;
+	reply: FastifyReply;
 	server: FastifyInstance;
 }
 

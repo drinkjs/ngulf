@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "declaration": true,
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2020",
+    "inlineSourceMap": true,
+    "outDir": "demo_build",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "moduleResolution":"Node",
+    "esModuleInterop":true,
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution":"node"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

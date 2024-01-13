@@ -6,12 +6,11 @@ import hooks from "./hooks";
 import Router from "./core/Router";
 import { Constructor } from "./core";
 
-
 export class Ngulf {
 	private readonly options:
-    | NgulfHttpOptions
-    | NgulfHtt2Options
-    | NgulfHttsOptions;
+		| NgulfHttpOptions
+		| NgulfHtt2Options
+		| NgulfHttsOptions;
 
 	private readonly _server!: FastifyInstance;
 
@@ -47,7 +46,8 @@ export class Ngulf {
 	static create(
 		options: NgulfHttpOptions | NgulfHtt2Options | NgulfHttsOptions
 	) {
-		return new Ngulf(options);
+		const app = new Ngulf(options);
+		return app;
 	}
 
 	static createHttps() {}
@@ -63,7 +63,7 @@ export class Ngulf {
 		return this._server;
 	}
 
-	async listen(params: FastifyListenOptions) {
+	async bind() {
 		let controllers: Constructor<any>[] = [];
 		if (Array.isArray(this.options.controllers)) {
 			controllers = this.options.controllers;
@@ -84,31 +84,31 @@ export class Ngulf {
 			}
 		}
 
+		// 系统插件
+		await plugin(this.server, this.options);
+		// 外部插件
+		if (this.options.plugin) {
+			await this.options.plugin(this.server);
+		}
+		// 系统hooks
+		await hooks(this.server, this.options);
+		// 外部hooks
+		if (this.options.hook) {
+			await this.options.hook(this.server, this.options);
+		}
+		// 注册路由
+		Router.create(this.server, this.options).bind(controllers);
+
+		// 外部状饰器
+		if (this.options.inject) {
+			await this.options.inject(this.server, this.options);
+		}
+	}
+
+	async listen(params: FastifyListenOptions) {
 		try {
-			// 系统插件
-			await plugin(this.server, this.options);
-			// 外部插件
-			if (this.options.plugin) {
-				await this.options.plugin(this.server);
-			}
-			// 系统hooks
-			await hooks(this.server, this.options);
-			// 外部hooks
-			if (this.options.hook) {
-				await this.options.hook(this.server, this.options);
-			}
-			// 注册路由
-			const router = Router.create(this.server, this.options);
-			router.bind(controllers);
-
-			// 外部状饰器
-			if(this.options.inject){
-				await this.options.inject(this.server, this.options);
-			}
-
+			await this.bind();
 			await this.server.listen(params);
-			router.callInitFuns();
-			return true;
 		} catch (err) {
 			setTimeout(() => {
 				process.exit(1);

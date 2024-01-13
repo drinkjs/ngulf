@@ -1,7 +1,9 @@
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema-es";
+import { printNode, zodToTs } from "zod-to-ts";
+import { zodToJsonSchema } from "zod-to-json-schema";
 import { Validation } from "../Validation";
 import { CONTROLLER_METADATA, PARAM_METADATA, ROUTE_METADATA } from "./metaKeys";
+import { nanoid } from "nanoid";
 
 export interface ParamType {
   key?: string;
@@ -10,6 +12,7 @@ export interface ParamType {
   paramType: any;
   schema?: Record<Param, any>;
   validator?: Validation | z.ZodType | string;
+	zodTs?:string
 }
 
 export function Controller(path = ""): ClassDecorator {
@@ -52,8 +55,12 @@ export function createParamDecorator(type: Param) {
 		if (!propertyKey) return;
 
 		let schema: Record<string, any> | undefined;
+		let zodTs: string | undefined;
 		if (validator instanceof z.ZodType) {
 			schema = zodToJsonSchema(validator);
+			const identifier = nanoid();
+			const { node } = zodToTs(validator, identifier);
+			zodTs = printNode(node);
 		}
 
 		const paramsTypes = Reflect.getMetadata(
@@ -74,6 +81,7 @@ export function createParamDecorator(type: Param) {
 				validator,
 				paramType: paramsTypes[index],
 				schema,
+				zodTs
 			},
 			...preMetadata,
 		];

@@ -71,6 +71,7 @@ export default class Router {
 				if (!routeMetadata) return;
 
 				const { type, path } = routeMetadata;
+				
 				// const self = selfish(instance);
 				const selfFun = instance[routeName].bind(instance);
 				const urlPath =
@@ -108,9 +109,6 @@ export default class Router {
 			});
 
 			instance.__server__ = this.server;
-			if (instance.__init__) {
-				this.initFuns.push(instance.__init__.bind(instance));
-			}
 			this.allRoute[controllerMetadata] = currRoutes;
 		});
 
@@ -139,14 +137,14 @@ export default class Router {
 		func: (...args: unknown[]) => unknown,
 		paramList: ParamType[]
 	) {
-		return async (req: FastifyRequest, res: FastifyReply) => {
-			const ctx: RouterContext = { req, res, server: this.server };
+		return async (request: FastifyRequest, reply: FastifyReply) => {
+			const ctx: RouterContext = { request, reply, server: this.server };
 			// 获取路由函数的参数
 			const args = await this.extractParameters(ctx, paramList);
 
 			const rel = await func(...args);
 			if (rel !== undefined) {
-				res.send(rel);
+				reply.send(rel);
 			}
 		};
 	}
@@ -156,7 +154,7 @@ export default class Router {
 		paramArr: ParamType[] = []
 	) {
 		if (!paramArr.length) return [ctx];
-		const { req } = ctx;
+		const { request } = ctx;
 
 		const args: any[] = [];
 		const checkArgs: any[] = [];
@@ -165,23 +163,23 @@ export default class Router {
 			let obj;
 			switch (type) {
 			case "query":
-				obj = req.query as any;
+				obj = request.query as any;
 				args[index] = key && obj ? obj[key] : obj;
 				break;
 			case "body":
-				obj = req.body as any;
+				obj = request.body as any;
 				args[index] = key && obj ? obj[key] : obj;
 				break;
 			case "headers":
-				obj = req.headers as any;
+				obj = request.headers as any;
 				args[index] = key && obj ? obj[key] : obj;
 				break;
 			case "params":
-				obj = req.params as any;
+				obj = request.params as any;
 				args[index] = key && obj ? obj[key] : obj;
 				break;
 			case "uploadFile":
-				obj = req as any;
+				obj = request as any;
 				// eslint-disable-next-line no-await-in-loop
 				args[index] = await obj.file();
 				break;
