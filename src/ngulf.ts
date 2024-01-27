@@ -3,8 +3,12 @@ import * as fs from "fs";
 import { NgulfHttpOptions, NgulfHtt2Options, NgulfHttsOptions } from "./config";
 import plugin from "./plugin";
 import hooks from "./hooks";
-import Router from "./core/Router";
+import { Router } from "./core";
 import { Constructor } from "./core";
+
+export interface NgulfListenOptions extends FastifyListenOptions{
+  serverless?:boolean
+}
 
 export class Ngulf {
 	private readonly options:
@@ -13,6 +17,7 @@ export class Ngulf {
 		| NgulfHttsOptions;
 
 	private readonly _server!: FastifyInstance;
+	private _router!: Router;
 
 	constructor(options: NgulfHttpOptions | NgulfHtt2Options | NgulfHttsOptions);
 	constructor(options: NgulfHttpOptions);
@@ -63,6 +68,10 @@ export class Ngulf {
 		return this._server;
 	}
 
+	get router() {
+		return this._router;
+	}
+
 	async bind() {
 		let controllers: Constructor<any>[] = [];
 		if (Array.isArray(this.options.controllers)) {
@@ -97,7 +106,8 @@ export class Ngulf {
 			await this.options.hook(this.server, this.options);
 		}
 		// 注册路由
-		Router.create(this.server, this.options).bind(controllers);
+		this._router = Router.create(this.server, this.options);
+		this._router.bind(controllers);
 
 		// 外部状饰器
 		if (this.options.inject) {
@@ -105,10 +115,12 @@ export class Ngulf {
 		}
 	}
 
-	async listen(params: FastifyListenOptions) {
+	async listen(params: NgulfListenOptions) {
 		try {
 			await this.bind();
-			await this.server.listen(params);
+			if (!params.serverless) {
+				await this.server.listen(params);
+			}
 		} catch (err) {
 			setTimeout(() => {
 				process.exit(1);

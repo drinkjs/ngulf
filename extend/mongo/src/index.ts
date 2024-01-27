@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import mongoose, { Connection } from "mongoose";
 import { ReturnModelType, getModelForClass } from "@typegoose/typegoose";
 
@@ -40,7 +41,10 @@ export async function connect(opts: MongoConnectionOptions) {
 	return conn;
 }
 
-export async function inject(mongoOpts: MongoConnectionOptions) {
+export async function inject(mongoOpts: MongoConnectionOptions) : Promise<void>
+export async function inject(mongoOpts: mongoose.Connection) : Promise<void>
+
+export async function inject(mongoOpts: MongoConnectionOptions | mongoose.Connection) {
 	// 注入mongoose Model
 	const services: any[] = Reflect.getMetadata(
 		MOGO_MODEL_METADATA,
@@ -52,11 +56,17 @@ export async function inject(mongoOpts: MongoConnectionOptions) {
 			if (target[key]) {
 				return;
 			}
-			const opts: MongoConnectionOptions = options || mongoOpts;
-			const conn = connections.get(opts.uris) ?? (await connect(opts));
-			target[key] = getModelForClass(model, {
-				existingConnection: conn || undefined,
-			});
+			if(mongoOpts instanceof mongoose.Connection){
+				target[key] = getModelForClass(model, {
+					existingConnection: mongoOpts || undefined,
+				});
+			}else{
+				const opts: MongoConnectionOptions = options || mongoOpts;
+				const conn = connections.get(opts.uris) ?? (await connect(opts));
+				target[key] = getModelForClass(model, {
+					existingConnection: conn || undefined,
+				});
+			}
 		}
 	}
 }

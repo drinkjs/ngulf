@@ -21,10 +21,10 @@ export default class TestController {
     private readonly projectService: ProjectService
   ) {}
 
-  // @Get("/get")
-  // async testGet(@Query("name") name: string) {
-  //   return name;
-  // }
+  @Get("/get")
+  async testGet(@Query() name: string) {
+    return name;
+  }
 
   // @Post("/post")
   // async testPost(@Body() data: { name: string }) {

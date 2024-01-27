@@ -19,7 +19,7 @@ import { Validation } from "./Validation";
 
 type initCallback = () => void;
 
-export default class Router {
+export class Router {
 	private server: FastifyInstance;
 
 	private wss: WebsocketEmitter | undefined;

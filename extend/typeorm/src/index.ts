@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import {
 	DataSource,
 	DataSourceOptions,
@@ -50,7 +51,10 @@ export async function connect(opts: ConnectOptions) {
 	return ds;
 }
 
-export async function inject(ormOpts: ConnectOptions) {
+export async function inject(ormOpts:ConnectOptions ) :Promise<void>
+export async function inject(ormOpts:DataSource ) :Promise<void>
+
+export async function inject(ormOpts: ConnectOptions | DataSource) {
 	// 注入orm repository
 	const services: any[] = Reflect.getMetadata(
 		TYPE_ORM_METADATA_KEY,
@@ -62,13 +66,18 @@ export async function inject(ormOpts: ConnectOptions) {
 			if (target[key]) {
 				return;
 			}
-			const opts = options || ormOpts;
-			if (!opts.name) {
-				opts.name = DefaultName;
-			}
-			const connection = dataSources.get(opts.name) ?? (await connect(opts));
-			if (connection) {
-				target[key] = connection.getRepository(entity);
+
+			if(ormOpts instanceof DataSource){
+				target[key] = ormOpts;
+			}else{
+				const opts = options || ormOpts;
+				if (!opts.name) {
+					opts.name = DefaultName;
+				}
+				const connection = dataSources.get(opts.name) ?? (await connect(opts));
+				if (connection) {
+					target[key] = connection.getRepository(entity);
+				}
 			}
 		}
 	}

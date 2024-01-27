@@ -8,6 +8,7 @@ import Ngulf, {
 import plugin from "./plugin";
 import hook from "./hook";
 import inject from "./inject";
+import TestController from "./controller/TestController";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +16,7 @@ const __dirname = path.dirname(__filename);
 export async function launch(options?: { port?: number }) {
   const app = Ngulf.create({
     routePrefix: "/api",
-    controllers: path.join(__dirname, "controller"),
+    controllers: [TestController],
     plugin,
     hook,
     inject,

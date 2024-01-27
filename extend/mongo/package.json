@@ -1,6 +1,6 @@
 {
   "name": "@ngulf/mongo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "mongo of ngulf",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@typegoose/typegoose": "^11.5.0",
-    "mongoose": "^7.5.1"
+    "mongoose": "^7.5.1",
+    "reflect-metadata": "^0.2.1"
   }
 }

@@ -12,7 +12,6 @@ export type NgulfBaseOptions = {
   port?: number;
   routePrefix?: string;
   websocket?: boolean;
-  serverless?:boolean
   controllers: Constructor<any>[] | string;
   plugin?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
   hook?: (fastify: FastifyInstance, opts?: NgulfBaseOptions) => Promise<any>;
