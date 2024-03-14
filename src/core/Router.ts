@@ -104,7 +104,7 @@ export class Router {
 						},
 						handler,
 					});
-					console.info(`${type} ${urlPath}`.blue);
+					// console.info(`${type} ${urlPath}`.blue);
 				}
 			});
 
